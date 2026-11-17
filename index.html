@@ -848,7 +848,7 @@ function rTimeline(d){
   const bs=blocksOf(d),dy=day(d),now=hm(new Date()),isT=d===today();
   const placed=new Set();
   const html=bs.map(b=>{
-    const ts=dy.tasks.filter(t=>t.st!=='moved'&&(t.block===b.id||(!t.block&&t.ts&&inBlock(b,t.ts))));
+    const ts=blockTasks(d,b);
     const ls=dy.logs.filter(l=>inBlock(b,l.s));ls.forEach(l=>placed.add(l.id));
     const tot=ls.reduce((a,l)=>a+l.min,0);
     return `<div class="blk"><div class="bic">${ic(bIcon(b))}</div>
@@ -1328,6 +1328,40 @@ document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.dataset.sti
 
 /* ===== drag & drop ===== */
 let DG=null;
+/* ===== 블록 안 시간 재배치 ===== */
+function blockTasks(d,b){
+  return (peek(d)?.tasks||[]).filter(t=>t.st!=='moved'&&(t.block===b.id||(!t.block&&t.ts&&inBlock(b,t.ts))))
+    .sort((x,y)=>(x.ts?adj(x.ts):1e9)-(y.ts?adj(y.ts):1e9));
+}
+function repackBlock(d,b,order){
+  const G=b.cafe?0:20;
+  let A=adj(b.s),C=adj(b.e);if(C<=A)C+=1440;
+  const iv=x=>{let a=adj(x.ts),c=adj(x.te||addTime(x.ts,x.min||30));if(c<=a)c+=1440;return[a,c]};
+  const fixed=order.filter(x=>x.st==='done'&&x.ts).map(iv);
+  let cur=A,miss=0;
+  for(const x of order){
+    if(x.st==='done'&&x.ts){x.block=b.id;continue}
+    const m=x.min||30;
+    for(let k=0;k<30;k++){let hit=false;for(const [p,q] of fixed){if(cur<q&&cur+m+G>p){cur=q+G;hit=true}}if(!hit)break}
+    if(cur+m<=C){x.ts=fmtT(cur);x.te=fmtT(cur+m);x.block=b.id;cur+=m+G}
+    else{x.ts='';x.te='';x.block=b.id;miss++}
+  }
+  return miss;
+}
+function dropTask(el,t){
+  const v=el.dataset.drop;
+  if(v==='list'){if(t.block||t.ts){t.block=null;t.ts='';t.te='';save();toast('배치를 뺐어요')}return}
+  const b=blocksOf(cur).find(x=>x.id===v.slice(2));if(!b)return;
+  if(b.type==='school'){t.block=b.id;t.ts='';t.te='';save();toast(`${b.label}에 배치했어요`);return}
+  const chips=[...el.querySelectorAll('.chip[data-drag]')].filter(c=>c.dataset.drag!==t.id);
+  const idx=chips.filter(c=>{const r=c.getBoundingClientRect();return r.top+r.height/2<DG.y}).length;
+  const order=chips.map(c=>findTask(cur,c.dataset.drag)).filter(Boolean);order.splice(idx,0,t);
+  const before=blockTasks(cur,b).map(x=>x.id);
+  if(order.length===before.length&&order.every((x,i)=>x.id===before[i])&&t.ts&&inBlock(b,t.ts))return;
+  const miss=repackBlock(cur,b,order);save();
+  toast(miss?`${b.label} 칸이 꽉 차서 ${miss}개는 시간 없이 뒀어요`:`${b.label}에 배치하고 시간을 맞췄어요`);
+}
+
 document.addEventListener('pointerdown',e=>{
   const h=e.target.closest('[data-drag]');if(!h||tab!=='day')return;
   const t=findTask(cur,h.dataset.drag);if(!t||t.st==='moved')return;
@@ -1362,7 +1396,7 @@ function endDrag(){
   if(DG.on){
     noClick=Date.now()+350;
     const d=DG.over,t=findTask(cur,DG.id);
-    if(d&&t){const v=d.dataset.drop;const nb=v==='list'?null:v.slice(2);if(t.block!==nb){t.block=nb;save();const b=blocksOf(cur).find(x=>x.id===nb);toast(b?`${b.label}에 배치했어요`:'배치를 뺐어요')}}
+    if(d&&t)dropTask(d,t);
     DG.g.remove();document.body.classList.remove('dragging');$$('.hov').forEach(n=>n.classList.remove('hov'));
     DG=null;render();return;
   }
