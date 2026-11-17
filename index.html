@@ -671,7 +671,8 @@ const P={
  send:'<path d="M21 3 10 14M21 3l-6.5 18-4-7.5L3 9.5z"/>',
  edit:'<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13.5 6.5 4 4"/>',
  book2:'<path d="M12 6.5C10.5 5 8 4.5 4 4.5v14c4 0 6.5.5 8 2 1.5-1.5 4-2 8-2v-14c-4 0-6.5.5-8 2zM12 6.5v14"/>',
- sync:'<path d="M20 11a8 8 0 0 0-14.3-4.3L4 9M4 4v5h5M4 13a8 8 0 0 0 14.3 4.3L20 15M20 20v-5h-5"/>'
+ sync:'<path d="M20 11a8 8 0 0 0-14.3-4.3L4 9M4 4v5h5M4 13a8 8 0 0 0 14.3 4.3L20 15M20 20v-5h-5"/>',
+ chart:'<path d="M5 20v-8M12 20V5M19 20v-5"/>'
 };
 const ic=(n,c='')=>`<svg class="i ${c}" viewBox="0 0 24 24">${P[n]||''}</svg>`;
 
@@ -792,7 +793,7 @@ function render(enter,dir){
   rTop();rTimer();
 }
 function rTop(){
-  if(tab==='home'){$('#topL').innerHTML=`<div class="logo">doday<b>.</b></div>`;$('#topR').innerHTML=`<button class="ghost" data-act="openSet">${ic('gear')}</button>`}
+  if(tab==='home'){$('#topL').innerHTML=`<div class="logo">doday<b>.</b></div>`;$('#topR').innerHTML=`<button class="ghost" data-act="openStats">${ic('chart')}</button> <button class="ghost" data-act="openSet">${ic('gear')}</button>`}
   else{$('#topL').innerHTML=`<button class="ghost" data-act="goHome">${ic('l')}달력</button>`;$('#topR').innerHTML=tab==='day'?`${cur!==today()?`<button class="ghost" data-act="goToday">오늘로</button>`:''}<button class="ghost" data-act="goWeek">주간</button>`:''}
 }
 function statusSym(s){return s==='done'?'<i class="ring"></i>':s==='part'?'△':s==='moved'?ic('arrow'):s==='skip'?ic('x'):''}
@@ -1240,6 +1241,7 @@ let noClick=0;
 const A={
  goHome:()=>{if(navStack.length){const n=navStack.length,first=navStack[0];navStack.length=0;ignorePop++;try{history.go(-n)}catch(e){}restore({...first,tab:'home'});return}tab='home';window.scrollTo(0,0);render(true)},
  openSet:()=>setSheet(),
+ openStats:()=>statSheet(wkStart(today())), statNav:el=>statSheet(addD(STW,7*(+el.dataset.v))),
  prevDay:()=>{cur=addD(cur,-1);render(true,'prev')}, nextDay:()=>{cur=addD(cur,1);render(true,'next')},
  goToday:()=>{cur=today();render(true)},
  addTask:el=>{if(el.dataset.date)cur=el.dataset.date;taskSheet(null)}, editTask:el=>{if(el.dataset.date)cur=el.dataset.date;taskSheet(el.dataset.id)},
@@ -1483,6 +1485,59 @@ function fbLogout(){firebase.auth().signOut();toast('로그아웃했어요')}
 
 /* ===== start ===== */
 applyPlan();applyTheme();render(true);cloudInit();
+/* ===== 주간 통계 ===== */
+let STW=null;
+function weekStat(ws){
+  const R=PLAN.rename||{},days=[],subj={};let total=0,done=0,all=0;
+  for(let i=0;i<7;i++){
+    const d=addD(ws,i),dy=peek(d);let m=0;
+    if(dy){
+      for(const l of dy.logs||[]){m+=l.min;const n=R[l.subj]||l.subj;subj[n]=(subj[n]||0)+l.min}
+      if(d<=today())for(const t of dy.tasks||[]){if(t.st==='moved')continue;all++;if(t.st==='done')done++}
+    }
+    days.push(m);total+=m;
+  }
+  return{days,subj,total,done,all};
+}
+function statSheet(ws,intro){
+  STW=ws;
+  const cw=wkStart(today()),isCur=ws===cw,isLast=ws===addD(cw,-7);
+  const c=weekStat(ws),p=weekStat(addD(ws,-7));
+  const a=pd(ws),b=pd(addD(ws,6));
+  const range=`${a.getMonth()+1}/${a.getDate()} ~ ${b.getMonth()+1}/${b.getDate()}`;
+  const title=intro?'지난주 공부 리포트':isCur?'이번 주':isLast?'지난주':'주간 통계';
+  const dl=c.total-p.total;
+  const deltaTxt=p.total>0?`지난주보다 ${dl>=0?'+':'−'}${fmtMin(Math.abs(dl))}`:'지난주 기록이 없어요';
+  const max=Math.max(60,...c.days);
+  const bars=c.days.map((m,i)=>{
+    const dd=addD(ws,i),isT=dd===today(),h=m?Math.max(6,Math.round(m/max*100)):3;
+    const lab=m?(m>=60?(Math.round(m/6)/10)+'h':m+'m'):'';
+    return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="font-size:10.5px;color:var(--sub);height:13px">${lab}</div><div style="width:100%;max-width:30px;height:100px;display:flex;align-items:flex-end"><div style="width:100%;height:${h}%;border-radius:8px;background:${isT?'var(--pink)':'var(--pinkbg2)'}"></div></div><div style="font-size:12px;font-weight:${isT?800:600};color:${isT?'var(--pink)':'var(--sub)'}">${WD[(i+1)%7]}</div></div>`;
+  }).join('');
+  const subs=Object.entries(c.subj).sort((x,y)=>y[1]-x[1]),top=subs.length?subs[0][1]:1;
+  const rows=subs.map(([n,m])=>`<div style="margin-top:12px"><div style="display:flex;justify-content:space-between;font-size:13.5px;font-weight:650"><span><i style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${subjC(n)};margin-right:6px"></i>${esc(n)}</span><span style="color:var(--sub)">${fmtMin(m)} · ${Math.round(m/c.total*100)}%</span></div><div style="height:8px;border-radius:6px;background:var(--soft2);margin-top:6px;overflow:hidden"><div style="width:${Math.max(3,Math.round(m/top*100))}%;height:100%;background:${subjC(n)}"></div></div></div>`).join('');
+  const studied=c.days.filter(x=>x>0).length,bi=c.days.indexOf(Math.max(...c.days));
+  const cell=(k,v)=>`<div style="flex:1;background:var(--soft);border-radius:16px;padding:12px 10px;text-align:center"><div style="font-size:11.5px;color:var(--sub);font-weight:600">${k}</div><div style="font-size:14.5px;font-weight:780;margin-top:4px">${v}</div></div>`;
+  openSheet(`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <button class="icb" data-act="statNav" data-v="-1">${ic('l')}</button>
+      <div style="text-align:center"><h3 style="margin:0">${title}</h3><div class="dsub" style="margin:2px 0 0">${range}</div></div>
+      <button class="icb" data-act="statNav" data-v="1" ${isCur?'disabled style="opacity:.3"':''}>${ic('r')}</button></div>
+    ${c.total?`<div style="text-align:center;margin:6px 0 18px"><div style="font-size:30px;font-weight:800;letter-spacing:-1px;color:var(--pink)">${fmtMin(c.total)}</div><div class="dsub" style="margin-top:2px">${deltaTxt}</div></div>
+    <div style="display:flex;gap:6px;align-items:flex-end">${bars}</div>
+    <div style="display:flex;gap:8px;margin-top:18px">${cell('하루 평균',fmtMin(Math.round(c.total/studied)))}${cell('가장 많이 한 날',`${WD[(bi+1)%7]}요일`)}${cell('할 일 완료',c.all?`${c.done}/${c.all}`:'-')}</div>
+    <div style="margin-top:22px;font-size:14px;font-weight:780">과목별</div>${rows}`
+    :`<div class="empty" style="margin:30px 0">이 주에는 타이머로 잰 공부 기록이 없어요</div>`}
+    <div class="sbtns"><button class="btn pri" data-act="closeSheet">${intro?'확인':'닫기'}</button></div>`);
+}
+function weeklyStats(){
+  const cw=wkStart(today());
+  if(S.statWk===cw)return;
+  const sh=$('#sheet');if(sh&&sh.classList.contains('on'))return;
+  S.statWk=cw;save();
+  if(weekStat(addD(cw,-7)).total>0)statSheet(addD(cw,-7),true);
+}
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')weeklyStats()});
+setTimeout(weeklyStats,700);
 let lastDay=today();
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&today()!==lastDay){if(cur===lastDay)cur=today();lastDay=today();render()}});
 if('serviceWorker' in navigator){try{navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}}
