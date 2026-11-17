@@ -154,6 +154,7 @@ html[data-theme=dark] .hero{background:linear-gradient(135deg,#B65A7B 0%,#7E3452
 .bcard.acad{background:var(--acad);border-color:var(--acadL)}
 .bcard.free{background:var(--free);border-color:var(--freeL)}
 .bcard.meal{background:var(--meal);border-color:var(--mealL)}
+.bph.off{display:flex;align-items:center;gap:5px}.bph.off svg.i{width:13px;height:13px}
 .bcard.unset{border-style:dashed;background:var(--soft)}
 .bcard.hov{border-color:var(--pink);box-shadow:0 0 0 2px var(--pink);transform:scale(1.01)}
 .bcard.now{box-shadow:0 0 0 2px var(--pink)}
@@ -848,10 +849,10 @@ function rTimeline(d){
     const ls=dy.logs.filter(l=>inBlock(b,l.s));ls.forEach(l=>placed.add(l.id));
     const tot=ls.reduce((a,l)=>a+l.min,0);
     return `<div class="blk"><div class="bic">${ic(bIcon(b))}</div>
-      <div class="bcard ${b.type} ${isT&&inBlock(b,now)?'now':''}" data-drop="b:${b.id}">
+      <div class="bcard ${b.type} ${isT&&inBlock(b,now)?'now':''}" ${b.type==='meal'?'':`data-drop="b:${b.id}"`}>
         <div class="bh"><b>${esc(b.label)}</b><span>${b.s} ~ ${b.e}</span>${tot?`<em>${fmtMin(tot)}</em>`:''}</div>
         ${ts.length||ls.length?`<div class="chips">${ts.map(t=>`<button class="chip ${t.st==='done'?'done':''}" data-drag="${t.id}" data-act="editTask" data-id="${t.id}"><span class="dot" style="background:${subjC(t.subj)}"></span>${t.ts?`<span class="ctm">${t.ts}</span>`:''}[${esc(t.subj)}] ${esc(t.title)}${t.st?`<span class="s">${t.st==='done'?'○':t.st==='part'?'△':'×'}</span>`:''}</button>`).join('')}${ls.map(l=>`<div class="log">${ic('clock')}${l.s}~${l.e} · [${esc(l.subj)}] ${esc(l.title)} (${l.min}분)</div>`).join('')}</div>`
-        :`<div class="bph">할 일을 여기로 드래그하세요</div>`}
+        :b.type==='meal'?`<div class="bph off">${ic('x')}공부 안 하는 시간</div>`:`<div class="bph">할 일을 여기로 드래그하세요</div>`}
       </div></div>`}).join('');
   return `<div class="tl2">${html}</div>`;
 }
