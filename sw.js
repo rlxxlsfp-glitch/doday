@@ -1,4 +1,4 @@
-const CACHE='doday-v62';
+const CACHE='doday-v63';
 const FILES=['./','./index.html','./manifest.json','./icon-192.png','./icon-512.png','./apple-touch-icon.png','./badge-96.png'];
 const OK_HOSTS=['cdn.jsdelivr.net','www.gstatic.com'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(FILES)));self.skipWaiting()});
