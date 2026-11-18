@@ -1,0 +1,26 @@
+name: doday 안드로이드 앱 만들기
+on:
+  push:
+    paths: ['android.zip']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 앱 파일 풀기
+        run: rm -rf android && unzip -q android.zip
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: 17 }
+      - uses: gradle/actions/setup-gradle@v4
+        with: { gradle-version: '8.9' }
+      - name: APK 만들기
+        run: gradle -p android assembleRelease --no-daemon
+      - name: 다운로드 링크에 올리기
+        env: { GH_TOKEN: '${{ github.token }}' }
+        run: |
+          cp android/app/build/outputs/apk/release/app-release.apk doday.apk
+          gh release delete apk -y --cleanup-tag || true
+          gh release create apk doday.apk --title "doday 안드로이드 앱" --notes "이 페이지의 doday.apk를 받아서 설치해요" --latest
