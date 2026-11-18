@@ -672,7 +672,8 @@ const P={
  edit:'<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13.5 6.5 4 4"/>',
  book2:'<path d="M12 6.5C10.5 5 8 4.5 4 4.5v14c4 0 6.5.5 8 2 1.5-1.5 4-2 8-2v-14c-4 0-6.5.5-8 2zM12 6.5v14"/>',
  sync:'<path d="M20 11a8 8 0 0 0-14.3-4.3L4 9M4 4v5h5M4 13a8 8 0 0 0 14.3 4.3L20 15M20 20v-5h-5"/>',
- chart:'<path d="M5 20v-8M12 20V5M19 20v-5"/>'
+ chart:'<path d="M5 20v-8M12 20V5M19 20v-5"/>',
+ bell:'<path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 2h-15z"/><path d="M10 20.5a2.2 2.2 0 0 0 4 0"/>'
 };
 const ic=(n,c='')=>`<svg class="i ${c}" viewBox="0 0 24 24">${P[n]||''}</svg>`;
 
@@ -740,7 +741,7 @@ function applyPlan(){
 }
 
 let saveT;
-function save(silent){S.updatedAt=Date.now();try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}if(!silent)cloudPush()}
+function save(silent){S.updatedAt=Date.now();try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}if(!silent)cloudPush();notifSync()}
 const day=d=>S.days[d]||(S.days[d]={tasks:[],memo:'',sub:false,logs:[]});
 const peek=d=>S.days[d];
 function inCafe(d,m){return blocksOf(d).some(b=>{if(!b.cafe)return false;let s=adj(b.s),e=adj(b.e);if(e<=s)e+=1440;return m>=s&&m<e})}
@@ -1127,6 +1128,7 @@ function statsHtml(ds){
 function setSheet(){
   openSheet(`<h3 id="setmark">설정</h3>
     <label class="fl">화면</label><div class="seg">${[['auto','자동'],['light','라이트'],['dark','다크']].map(([k,l])=>`<button class="${S.theme===k?'on':''}" data-act="theme" data-v="${k}">${l}</button>`).join('')}</div>
+    <div class="fgap"><label class="fl">알림</label><div class="seg">${[[0,'끄기'],[1,'켜기']].map(([k,l])=>`<button class="${notifOn()===!!k?'on':''}" data-act="notif" data-v="${k}">${l}</button>`).join('')}</div><div class="dsub" style="margin:8px 2px 0">${notifHint()}</div></div>
     <div class="fgap"><label class="fl">계정 · 동기화</label><div class="card" style="margin-top:0">${acctHtml()}</div></div>
     <div class="sbtns"><button class="btn soft" data-act="closeSheet">닫기</button></div>`);
 }
@@ -1254,6 +1256,7 @@ const A={
  goWeek:()=>{pushNav();wk=wkStart(tab==='day'?cur:today());tab='week';rWeek.scrolled=0;window.scrollTo(0,0);render(true)},
  lToggle:el=>{const b=el.closest('.lbox');if(openMs.has('letter')){openMs.delete('letter');b.classList.remove('open')}else{openMs.add('letter');b.classList.add('open')}},
  lNext:()=>{pickLetter();openMs.add('letter');render()},
+ notif:el=>notifSet(el.dataset.v==='1'),
  goLeft:()=>{pushNav();tab='left';window.scrollTo(0,0);render(true)},
  openAuto:()=>autoSheet(),
  aSubj:el=>{SS.subj=el.dataset.v;pickIn('asj','',SS.subj)}, aUnit:el=>{SS.unit=el.dataset.v;pickIn('aun','',SS.unit);autoPrev()},
@@ -1471,11 +1474,12 @@ async function startSync(){
     else push();
     fbUnsub=fbRef.onSnapshot(s=>{if(!s.exists||s.metadata.hasPendingWrites)return;const r=s.data();if(r.updatedAt>S.updatedAt)applyRemote(r)});
     syncMsg='';
+    if(notifOn())pushReg(true);
   }catch(e){syncMsg='동기화에 실패했어요. Firestore 규칙을 확인해 주세요'}
   refreshSet();
 }
-function applyRemote(r){try{const d=JSON.parse(r.data);S=d;for(const k in F)if(S[k]===undefined)S[k]=F[k];applyPlan();localStorage.setItem(KEY,JSON.stringify(S));applyTheme();if(!($('#sheet').classList.contains('on')||document.activeElement?.id==='memo'))render()}catch(e){}}
-function push(){if(!fbRef)return;fbRef.set({data:JSON.stringify(S),updatedAt:S.updatedAt}).catch(()=>{syncMsg='동기화에 실패했어요';refreshSet()})}
+function applyRemote(r){try{const d=JSON.parse(r.data);S=d;for(const k in F)if(S[k]===undefined)S[k]=F[k];applyPlan();localStorage.setItem(KEY,JSON.stringify(S));applyTheme();notifSync();if(!($('#sheet').classList.contains('on')||document.activeElement?.id==='memo'))render()}catch(e){}}
+function push(){if(!fbRef)return;fbRef.set({data:JSON.stringify(S),updatedAt:S.updatedAt,pushSnap:notifSnap()},{merge:true}).catch(()=>{syncMsg='동기화에 실패했어요';refreshSet()})}
 function cloudPush(){if(!fbRef)return;clearTimeout(pushT);pushT=setTimeout(push,800)}
 async function fbLogin(){
   const p=new firebase.auth.GoogleAuthProvider();
@@ -1540,6 +1544,71 @@ document.addEventListener('visibilitychange',()=>{if(document.visibilityState===
 setTimeout(weeklyStats,700);
 let lastDay=today();
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&today()!==lastDay){if(cur===lastDay)cur=today();lastDay=today();render()}});
+/* ===== 알림 ===== */
+const NKEY='doday-notif-on';
+const notifOK=()=>'Notification' in window&&'serviceWorker' in navigator;
+function notifOn(){try{return localStorage.getItem(NKEY)==='1'&&notifOK()&&Notification.permission==='granted'}catch(e){return false}}
+function notifHint(){
+  if(!notifOK())return '홈 화면에 추가한 앱에서 알림을 켤 수 있어요';
+  if(Notification.permission==='denied')return '알림이 막혀 있어요. 폰 설정 → 앱(또는 브라우저) → doday에서 알림을 허용해 주세요';
+  const base='수행평가·일정 전날 저녁 6시, 미룬 할 일이 3개 이상이면 저녁 8시에 알려 줘요';
+  if(notifOn()&&firebaseConfig.apiKey&&!fbUser)return base+'. 구글 로그인을 하면 앱을 꺼 둬도 제시간에 와요';
+  return base;
+}
+async function notifSet(on){
+  if(on){
+    if(!notifOK()){toast('홈 화면에 추가한 앱에서 켤 수 있어요');return}
+    let p=Notification.permission;
+    if(p==='default'){try{p=await Notification.requestPermission()}catch(e){}}
+    if(p!=='granted'){toast('알림 권한이 필요해요');refreshSet();return}
+    localStorage.setItem(NKEY,'1');
+    try{const r=await navigator.serviceWorker.ready;if('periodicSync' in r){try{const st=await navigator.permissions.query({name:'periodic-background-sync'});if(st.state==='granted')await r.periodicSync.register('doday-notif',{minInterval:60*60*1000})}catch(e){}}}catch(e){}
+    pushReg(true);
+    toast('알림을 켰어요');
+  }else{
+    localStorage.setItem(NKEY,'0');
+    pushReg(false);
+    try{const r=await navigator.serviceWorker.ready;if('periodicSync' in r)await r.periodicSync.unregister('doday-notif')}catch(e){}
+    toast('알림을 껐어요');
+  }
+  notifSync();refreshSet();
+}
+function notifSnap(){
+  const left={};
+  for(const d of Object.keys(S.days||{})){const n=(S.days[d].tasks||[]).filter(x=>!x.dismissed&&(x.st===null||x.st===undefined||x.st==='part'||x.st==='skip')).length;if(n)left[d]=n}
+  return {on:notifOn(),name:S.name||PLAN.name||'',ev:(S.events||[]).map(e=>({d:e.date,t:e.title,ty:e.type||'etc'})),exam:{t:(PLAN.exam&&PLAN.exam.title)||'시험',days:(PLAN.exam&&PLAN.exam.days)||[]},left};
+}
+/* 서버(GitHub Actions)가 보내는 알림 받기: 기기 토큰을 Firestore에 저장 */
+const TKEY='doday-push-token';
+async function pushReg(on){
+  try{
+    if(!fbReady||!fbUser||!fbRef)return;
+    if(!on){const t=localStorage.getItem(TKEY);if(t){await fbRef.set({pushTokens:firebase.firestore.FieldValue.arrayRemove(t)},{merge:true});localStorage.removeItem(TKEY)}return}
+    if(!firebase.messaging)await loadScript('https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js');
+    if(!(await firebase.messaging.isSupported()))return;
+    const reg=await navigator.serviceWorker.ready;
+    const tok=await firebase.messaging().getToken({serviceWorkerRegistration:reg});
+    if(!tok)return;
+    const old=localStorage.getItem(TKEY);
+    const up={pushTokens:firebase.firestore.FieldValue.arrayUnion(tok),pushSnap:notifSnap()};
+    await fbRef.set(up,{merge:true});
+    if(old&&old!==tok)await fbRef.set({pushTokens:firebase.firestore.FieldValue.arrayRemove(old)},{merge:true});
+    localStorage.setItem(TKEY,tok);
+  }catch(e){console.warn('push',e)}
+}
+var notifT;
+function notifSync(){
+  if(!('serviceWorker' in navigator))return;
+  clearTimeout(notifT);
+  notifT=setTimeout(()=>{navigator.serviceWorker.ready.then(r=>{const w=r.active||navigator.serviceWorker.controller;w&&w.postMessage({t:'notif',snap:notifSnap()})}).catch(()=>{})},300);
+}
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.addEventListener('message',e=>{if(e.data&&e.data.go==='left'&&tab!=='left')A.goLeft()});
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')notifSync()});
+  setInterval(notifSync,60*1000);
+  setTimeout(notifSync,1200);
+}
+try{const q=new URLSearchParams(location.search);if(q.get('go')==='left'){history.replaceState(null,'',location.pathname);setTimeout(()=>A.goLeft(),50)}}catch(e){}
 if('serviceWorker' in navigator){try{navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}}
 </script>
 </body>
