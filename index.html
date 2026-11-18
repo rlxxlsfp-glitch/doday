@@ -635,6 +635,9 @@ const firebaseConfig = {
   appId: "1:322645613396:web:9b73e58558018c972fc6c1"
 };
 const FB_COLLECTION = "doday";
+/* 안드로이드 앱(doday APK)에서 구글 로그인에 쓰는 값: Firebase → Authentication → Google → 웹 클라이언트 ID */
+const GOOGLE_WEB_CLIENT_ID = "";
+const NATIVE = window.DodayNative || null;
 
 /* ===== icons ===== */
 const P={
@@ -1483,6 +1486,11 @@ function applyRemote(r){try{const d=JSON.parse(r.data);S=d;for(const k in F)if(S
 function push(){if(!fbRef)return;fbRef.set({data:JSON.stringify(S),updatedAt:S.updatedAt,pushSnap:notifSnap()},{merge:true}).catch(()=>{syncMsg='동기화에 실패했어요';refreshSet()})}
 function cloudPush(){if(!fbRef)return;clearTimeout(pushT);pushT=setTimeout(push,800)}
 async function fbLogin(){
+  if(NATIVE){
+    if(!GOOGLE_WEB_CLIENT_ID){toast('앱 로그인 설정이 아직 안 됐어요');return}
+    window.nativeIdToken=(tok,err)=>{if(!tok){toast('로그인을 못 했어요');console.warn(err);return}
+      firebase.auth().signInWithCredential(firebase.auth.GoogleAuthProvider.credential(tok)).catch(()=>toast('로그인을 못 했어요'))};
+    NATIVE.googleSignIn(GOOGLE_WEB_CLIENT_ID);return}
   const p=new firebase.auth.GoogleAuthProvider();
   try{await firebase.auth().signInWithPopup(p)}catch(e){if(e&&(e.code==='auth/popup-blocked'||e.code==='auth/operation-not-supported-in-this-environment'))firebase.auth().signInWithRedirect(p);else toast('로그인을 못 했어요')}
 }
@@ -1547,20 +1555,21 @@ let lastDay=today();
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&today()!==lastDay){if(cur===lastDay)cur=today();lastDay=today();render()}});
 /* ===== 알림 ===== */
 const NKEY='doday-notif-on';
-const notifOK=()=>'Notification' in window&&'serviceWorker' in navigator;
-function notifOn(){try{return localStorage.getItem(NKEY)==='1'&&notifOK()&&Notification.permission==='granted'}catch(e){return false}}
+const notifOK=()=>!!NATIVE||('Notification' in window&&'serviceWorker' in navigator);
+const notifPerm=()=>NATIVE?(NATIVE.notifAllowed()?'granted':'default'):Notification.permission;
+function notifOn(){try{return localStorage.getItem(NKEY)==='1'&&notifOK()&&notifPerm()==='granted'}catch(e){return false}}
 function notifHint(){
   if(!notifOK())return '홈 화면에 추가한 앱에서 알림을 켤 수 있어요';
-  if(Notification.permission==='denied')return '알림이 막혀 있어요. 폰 설정 → 앱(또는 브라우저) → doday에서 알림을 허용해 주세요';
+  if(!NATIVE&&Notification.permission==='denied')return '알림이 막혀 있어요. 폰 설정 → 앱(또는 브라우저) → doday에서 알림을 허용해 주세요';
   const base='수행평가·일정 전날 저녁 6시, 미룬 할 일이 3개 이상이면 저녁 8시에 알려 줘요';
-  if(notifOn()&&firebaseConfig.apiKey&&!fbUser)return base+'. 구글 로그인을 하면 앱을 꺼 둬도 제시간에 와요';
+  if(!NATIVE&&notifOn()&&firebaseConfig.apiKey&&!fbUser)return base+'. 구글 로그인을 하면 앱을 꺼 둬도 제시간에 와요';
   return base;
 }
 async function notifSet(on){
   if(on){
     if(!notifOK()){toast('홈 화면에 추가한 앱에서 켤 수 있어요');return}
-    let p=Notification.permission;
-    if(p==='default'){try{p=await Notification.requestPermission()}catch(e){}}
+    let p=notifPerm();
+    if(p==='default'){try{p=NATIVE?((await new Promise(ok=>{window.nativeNotifResult=ok;NATIVE.askNotif()}))?'granted':'denied'):await Notification.requestPermission()}catch(e){}}
     if(p!=='granted'){toast('알림 권한이 필요해요');refreshSet();return}
     localStorage.setItem(NKEY,'1');
     try{const r=await navigator.serviceWorker.ready;if('periodicSync' in r){try{const st=await navigator.permissions.query({name:'periodic-background-sync'});if(st.state==='granted')await r.periodicSync.register('doday-notif',{minInterval:60*60*1000})}catch(e){}}}catch(e){}
@@ -1582,6 +1591,7 @@ function notifSnap(){
 /* 서버(GitHub Actions)가 보내는 알림 받기: 기기 토큰을 Firestore에 저장 */
 const TKEY='doday-push-token';
 async function pushReg(on){
+  if(NATIVE)return;
   try{
     if(!fbReady||!fbUser||!fbRef)return;
     if(!on){const t=localStorage.getItem(TKEY);if(t){await fbRef.set({pushTokens:firebase.firestore.FieldValue.arrayRemove(t)},{merge:true});localStorage.removeItem(TKEY)}return}
@@ -1600,6 +1610,10 @@ async function pushReg(on){
 /* 시간 측정 중이면 알림 창에 띄우기 */
 let tnKey='';
 async function timerNotif(force){
+  if(NATIVE){try{const t=S.timer,k=t&&findTask(t.date,t.taskId);
+    if(!t||!k||!notifOn()){if(tnKey!=='none'){tnKey='none';NATIVE.timerStop()}return}
+    const key=`${t.taskId}|${!!t.seg}|${t.acc}`;if(!force&&key===tnKey)return;tnKey=key;
+    NATIVE.timer(!!t.seg,elapsed(),`[${k.subj}] ${k.title}`)}catch(e){}return}
   try{
     if(!('serviceWorker' in navigator))return;
     const r=await navigator.serviceWorker.ready;
@@ -1618,6 +1632,7 @@ setInterval(()=>{if(S.timer)timerNotif()},20*1000);
 document.addEventListener('visibilitychange',()=>{if(S.timer)timerNotif(true)});
 var notifT;
 function notifSync(){
+  if(NATIVE){try{NATIVE.setSchedule(JSON.stringify(notifSnap()),notifOn())}catch(e){}return}
   if(!('serviceWorker' in navigator))return;
   clearTimeout(notifT);
   notifT=setTimeout(()=>{navigator.serviceWorker.ready.then(r=>{const w=r.active||navigator.serviceWorker.controller;w&&w.postMessage({t:'notif',snap:notifSnap()})}).catch(()=>{})},300);
@@ -1628,6 +1643,7 @@ if('serviceWorker' in navigator){
   setInterval(notifSync,60*1000);
   setTimeout(notifSync,1200);
 }
+window.nativeGo=go=>{if(go==='left'&&tab!=='left')A.goLeft()};
 try{const q=new URLSearchParams(location.search);if(q.get('go')==='left'){history.replaceState(null,'',location.pathname);setTimeout(()=>A.goLeft(),50)}}catch(e){}
 if('serviceWorker' in navigator){try{navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}}
 </script>
