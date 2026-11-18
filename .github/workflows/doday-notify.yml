@@ -1,0 +1,27 @@
+name: doday 알림
+on:
+  schedule:
+    - cron: '50 8 * * *'
+    - cron: '50 10 * * *'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'sched(일정) / left(미룬 할 일) / test(연결 확인)'
+        default: 'test'
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: notify } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: npm install --no-audit --no-fund
+      - name: 알림 보내기
+        env:
+          TZ: Asia/Seoul
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then MODE="${{ inputs.mode }}";
+          elif [ "${{ github.event.schedule }}" = "50 8 * * *" ]; then MODE=sched; else MODE=left; fi
+          node send.mjs "$MODE"
