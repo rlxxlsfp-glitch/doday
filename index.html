@@ -1144,13 +1144,14 @@ function elapsed(){const t=S.timer;if(!t)return 0;return t.acc+(t.seg?Date.now()
 function findTask(date,id){return (peek(date)?.tasks||[]).find(t=>t.id===id)}
 function rTimer(){
   const t=S.timer,bar=$('#tbar');
-  if(!t){bar.classList.remove('on');return}
+  if(!t){bar.classList.remove('on');timerNotif();return}
   const k=findTask(t.date,t.taskId);
   if(!k){S.timer=null;save();bar.classList.remove('on');return}
   bar.classList.add('on');
   $('#tbT').textContent=`[${k.subj}] ${k.title}`;
   $('#tbP').innerHTML=t.seg?`${ic('pause')}정지`:`${ic('play')}재개`;
   $('#tbN').textContent=clock(elapsed());
+  timerNotif();
 }
 setInterval(()=>{if(!S.timer)return;const s=clock(elapsed());$('#tbN').textContent=s;const r=$('#rowclock');if(r)r.textContent=s},1000);
 function startTimer(id){
@@ -1571,7 +1572,7 @@ async function notifSet(on){
     try{const r=await navigator.serviceWorker.ready;if('periodicSync' in r)await r.periodicSync.unregister('doday-notif')}catch(e){}
     toast('알림을 껐어요');
   }
-  notifSync();refreshSet();
+  notifSync();timerNotif(true);refreshSet();
 }
 function notifSnap(){
   const left={};
@@ -1596,6 +1597,25 @@ async function pushReg(on){
     localStorage.setItem(TKEY,tok);
   }catch(e){console.warn('push',e)}
 }
+/* 시간 측정 중이면 알림 창에 띄우기 */
+let tnKey='';
+async function timerNotif(force){
+  try{
+    if(!('serviceWorker' in navigator))return;
+    const r=await navigator.serviceWorker.ready;
+    const t=S.timer,k=t&&findTask(t.date,t.taskId);
+    if(!t||!k||!notifOn()){if(tnKey){tnKey='';(await r.getNotifications({tag:'doday-timer'})).forEach(n=>n.close())}return}
+    const ms=elapsed(),min=Math.floor(ms/60000),run=!!t.seg;
+    const key=`${t.taskId}|${run}|${min}`;if(!force&&key===tnKey)return;tnKey=key;
+    const tm=min>=60?`${Math.floor(min/60)}시간 ${min%60}분`:`${min}분`;
+    await r.showNotification(run?`공부 중 · ${tm}째`:`일시정지 · ${tm}`,{
+      body:`[${k.subj}] ${k.title}`+(run?`\n${hm(new Date(t.startedAt))}에 시작했어요`:'\n다시 시작하려면 눌러서 재개해요'),
+      tag:'doday-timer',renotify:false,silent:true,requireInteraction:run,
+      icon:'icon-192.png',badge:'badge-96.png',timestamp:Date.now()-ms,data:{url:'./'},lang:'ko'});
+  }catch(e){}
+}
+setInterval(()=>{if(S.timer)timerNotif()},20*1000);
+document.addEventListener('visibilitychange',()=>{if(S.timer)timerNotif(true)});
 var notifT;
 function notifSync(){
   if(!('serviceWorker' in navigator))return;
