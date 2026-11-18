@@ -1613,7 +1613,7 @@ async function timerNotif(force){
   if(NATIVE){try{const t=S.timer,k=t&&findTask(t.date,t.taskId);
     if(!t||!k||!notifOn()){if(tnKey!=='none'){tnKey='none';NATIVE.timerStop()}return}
     const key=`${t.taskId}|${!!t.seg}|${t.acc}`;if(!force&&key===tnKey)return;tnKey=key;
-    NATIVE.timer(!!t.seg,elapsed(),`[${k.subj}] ${k.title}`)}catch(e){}return}
+    try{NATIVE.timer(!!t.seg,elapsed(),k.subj||'',k.title||'',t.startedAt||0)}catch(e){NATIVE.timer(!!t.seg,elapsed(),`[${k.subj}] ${k.title}`)}}catch(e){}return}
   try{
     if(!('serviceWorker' in navigator))return;
     const r=await navigator.serviceWorker.ready;
