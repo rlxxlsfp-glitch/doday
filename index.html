@@ -240,6 +240,25 @@ html[data-theme=dark] .btn.dark{background:var(--soft2)}
 .msin ul{background:var(--bg);border-radius:14px;padding:13px 14px 13px 30px;font-size:13.5px;line-height:1.65}
 .msin li+li{margin-top:5px}
 .msin .btn{height:44px;margin-top:10px;font-size:14px}
+.mxb{background:var(--page,var(--bg));border-radius:14px;padding:13px 14px;font-size:13.5px;line-height:1.65;word-break:keep-all}
+.mxb+.mxb{margin-top:8px}
+.mxb b{display:block;font-size:12.5px;font-weight:800;color:var(--rose);margin-bottom:5px}
+.mxb p{margin:0;color:var(--text)}
+.mxs{display:flex;gap:10px;align-items:flex-start}.mxs+.mxs{margin-top:8px}
+.mxs i{font-style:normal;flex-shrink:0;width:21px;height:21px;border-radius:11px;background:var(--pink);color:#fff;font-size:11.5px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.mxs span{color:var(--text)}
+/* 나만의 공부 추가: 작은 칩 */
+.qrow{display:flex;gap:6px;overflow-x:auto;margin:0 -20px;padding:0 20px 2px;scrollbar-width:none}.qrow::-webkit-scrollbar{display:none}
+.qwrap{display:flex;flex-wrap:wrap;gap:6px}
+.qchip{flex-shrink:0;white-space:nowrap;height:30px;padding:0 12px;border:none;border-radius:999px;background:var(--soft);color:var(--text);font-size:12.5px;font-weight:700;transition:background .18s,color .18s}
+.qchip.on{background:rgba(210,99,138,.16);color:var(--rose)}
+.qfi{border:none!important;background:var(--soft)!important;height:44px!important;border-radius:13px!important;font-size:14px!important}
+.qfi:focus{box-shadow:0 0 0 2px var(--pink)}
+.qmin{display:flex;align-items:center;gap:8px;height:44px;border-radius:13px;background:var(--soft);padding:0 14px;box-shadow:0 0 0 2px var(--pink)}
+.qmin input{flex:1;min-width:0;border:none;background:transparent;outline:none;font-size:15px;font-weight:800;color:var(--text)}
+.qmin span{font-size:13.5px;font-weight:700;color:var(--sub)}
+.qhint{font-size:12px;color:var(--sub);margin:10px 0 6px}
+html[data-theme=dark] .qchip,html[data-theme=dark] .qmin{background:#2C2328}html[data-theme=dark] .qfi{background:#2C2328!important}html[data-theme=dark] .qchip.on{background:rgba(232,128,159,.2)}
 .ck{display:flex;align-items:flex-start;gap:10px;padding:9px 4px;font-size:13.5px;line-height:1.5;text-align:left;width:100%}
 .ck+.ck{border-top:1px solid var(--line)}
 .ck .bx{width:22px;height:22px;border-radius:7px;border:2px solid var(--line2);display:grid;place-items:center;flex:none;margin-top:0;transition:all .18s;color:#fff}
@@ -443,15 +462,25 @@ html[data-theme=dark] .tsub u{color:var(--rose)}
 .wt div:first-child{transform:none}
 .wcol{position:relative;border-left:1px solid var(--gline);touch-action:pan-y}
 .wlines{position:absolute;inset:0;pointer-events:none;z-index:1;background-image:linear-gradient(var(--gline) 1px,transparent 1px);background-size:100% 44px}
-.wbg{position:absolute;left:2px;width:4px;border-radius:4px;pointer-events:none;z-index:1}
+.wbg{position:absolute;left:2px;width:4px;border-radius:4px;z-index:2;border:none;padding:0;cursor:pointer}
+.wbg::before{content:'';position:absolute;left:-4px;right:-12px;top:0;bottom:0}
 .wbg span{display:none}
+.hwl{background:var(--soft);border-radius:14px;padding:2px 12px}
+html[data-theme=dark] .hwl{background:#2C2328}
+.hwr{display:flex;align-items:center;gap:4px}.hwr+.hwr{border-top:1px solid var(--line)}
+.hwr .ck{flex:1;min-width:0;padding:11px 2px}.hwr .ctx{word-break:keep-all}
+.hwr .icb{width:36px;height:36px;flex:none;color:var(--sub)}
+.hwadd{display:flex;gap:8px;margin-top:10px}.hwadd .fi{flex:1 1 auto;width:auto!important;min-width:0}.hwadd .btn{width:auto!important;height:44px;padding:0 18px;flex:none;font-size:14px}
+.hwnext{font-size:12.5px;color:var(--rose);font-weight:700;margin-top:14px}
+.hwr .ck:not(.on) .bx svg{opacity:0}
+.hwempty{font-size:13px;color:var(--sub);padding:14px 2px}
 .wbg.school{background:#C9C2E6}
 .wbg.acad{background:#E3BFA9}
 .wbg.meal{background:#EFD7B8}
 html[data-theme=dark] .wbg.school{background:#4A4470}html[data-theme=dark] .wbg.acad{background:#6A4C3B}html[data-theme=dark] .wbg.meal{background:#5E4A30}
 .wleg{display:flex;gap:14px;justify-content:flex-end;padding:10px 14px;font-size:11.5px;color:var(--sub);border-top:1px solid var(--gline)}
 .wleg i{display:inline-block;width:4px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-2px}
-.wbg.nolbl span{display:none}
+
 .witem{position:absolute;left:9px;right:2px;border-radius:5px;background:color-mix(in srgb,var(--c) 15%,transparent);padding:4px 1px 2px 5px;text-align:left;overflow:hidden;font-size:10px;line-height:1.25;z-index:2;color:var(--text)}
 .witem:before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--c);opacity:.8}
 .witem b{font-weight:700;word-break:keep-all;overflow-wrap:anywhere;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:var(--lc,3);overflow:hidden}
@@ -651,7 +680,7 @@ const P={
  l:'<path d="m15 18-6-6 6-6"/>', r:'<path d="m9 18 6-6-6-6"/>',
  down:'<path d="m6 9 6 6 6-6"/>',
  grip:'<circle cx="9" cy="6" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="18" r="1"/>',
- flame:'<path d="M12 21c-3.9 0-7-2.8-7-6.6 0-3.1 2.1-5 3.4-7 .5 1.6 1.4 2.6 2.4 3C10.4 7 12 4.6 14 3c.4 3 3.3 4.9 4.4 7.3.4.9.6 2 .6 3.1C19 18.2 15.9 21 12 21z"/><path d="M12 21c-1.7 0-3-1.3-3-3 0-1.9 1.6-2.6 2.2-4.2 1.6 1 3.8 2.3 3.8 4.2 0 1.7-1.3 3-3 3z"/>',
+ flame:'<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>',
  clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
  check:'<path d="m5 12.5 4.5 4.5L19 7.5"/>',
  x:'<path d="M6 6l12 12M18 6 6 18"/>',
@@ -778,12 +807,13 @@ function streak(){
 const studied=d=>(peek(d)?.logs||[]).reduce((a,l)=>a+l.min,0);
 
 /* ===== missions ===== */
+const DAILY_X=[{"why": "책을 다시 읽는 것보다, 안 보고 떠올리는 순간 기억이 훨씬 단단해져요. 못 쓴 부분이 곧 내가 모르는 부분이라 내일 뭘 다시 볼지도 바로 보여요.", "how": ["오늘 공부한 과목 하나를 골라 책을 덮어요", "5분 동안 떠오르는 단어·개념을 전부 적어요. 문장이 아니어도 돼요", "책을 펴고 빠뜨린 것만 다른 색 펜으로 채워요"]}, {"why": "틀린 문제는 해설을 읽으면 '아는 것 같은' 느낌만 남아요. 해설 없이 다시 풀어 봐야 진짜로 고쳐졌는지 알 수 있어요.", "how": ["오늘 틀린 문제 중 하나를 골라 해설을 가려요", "처음 푸는 것처럼 풀이 과정을 끝까지 써요", "해설과 비교해서 어디서 갈렸는지 한 줄로 적어 둬요"]}, {"why": "내일 볼 범위를 미리 한 번 훑어 두면, 공부를 시작할 때 '어디까지 하지?' 고민하는 시간이 사라져요. 뇌가 밤사이에 미리 준비도 해요.", "how": ["내일 계획표에서 첫 과목을 확인해요", "그 범위의 목차와 소제목만 3분 동안 읽어요", "제일 어려워 보이는 소제목 하나에 표시해 둬요"]}, {"why": "남한테 설명할 수 있어야 진짜 아는 거예요. 소리 내어 말하다 막히는 지점이 바로 내가 헷갈리는 부분이에요.", "how": ["가장 자신 없는 개념 하나를 골라요", "친구에게 가르친다고 생각하고 1분 동안 소리 내어 설명해요", "막힌 부분만 책에서 다시 확인하고 한 번 더 말해 봐요"]}, {"why": "세 줄로 줄이려면 뭐가 중요한지 스스로 골라야 해요. 그 고르는 과정이 내용을 정리해 주고, 시험 직전에 볼 요약도 저절로 생겨요.", "how": ["오늘 공부한 과목 하나를 정해요", "가장 중요한 내용을 딱 세 줄로 써요", "내일 아침에 그 세 줄만 다시 읽어요"]}, {"why": "휴대폰은 보이기만 해도 집중력을 조금씩 빼앗아요. 25분만 완전히 떨어져 있어 보면, 생각보다 많이 해낸다는 걸 느낄 수 있어요.", "how": ["휴대폰을 다른 방이나 가방 깊숙이 넣어요", "타이머를 25분에 맞추고 한 과목만 해요", "끝나면 5분 쉬고, 얼마나 했는지 기록해요"]}, {"why": "남은 분량이 눈에 보이면 막연한 불안이 줄어들고, 무엇부터 해야 할지가 분명해져요.", "how": ["과목별 시험 범위표를 꺼내요", "다 본 곳 ○, 대충 본 곳 △, 안 본 곳 ×로 표시해요", "× 부분 하나를 이번 주 계획에 먼저 넣어요"]}, {"why": "영어 내신은 본문을 얼마나 정확히 기억하느냐가 서술형과 어법을 좌우해요. 한글만 보고 영어로 말해 보면 빈 곳이 바로 드러나요.", "how": ["본문 하나를 골라 한글 해석만 보이게 가려요", "한 문장씩 영어로 말하거나 써 봐요", "막힌 문장만 원문을 보고 다시 한 번 말해요"]}, {"why": "한국사는 연도를 외우는 것보다 사건의 순서를 아는 게 훨씬 중요해요. 순서가 잡히면 원인과 결과도 같이 기억나요.", "how": ["오늘 배운 단원에서 사건 5개를 골라요", "책을 보지 않고 일어난 순서대로 써요", "책과 비교해서 틀린 순서는 왜 그런지 한 줄로 적어요"]}, {"why": "수학 오답은 답만 확인하면 다음에 또 틀려요. 처음부터 손으로 다시 풀어야 풀이 흐름이 몸에 남아요.", "how": ["오답 중 3문제를 골라 풀이를 가려요", "백지에 처음부터 끝까지 다시 풀어요", "또 막힌 문제는 별표를 하고 내일 한 번 더 풀어요"]}, {"why": "학습지는 학교 시험에 그대로 나오는 경우가 많아요. 빈칸을 가리고 채워 보면 외운 것과 못 외운 것이 정확히 갈려요.", "how": ["통합사회 학습지 한 장을 골라 빈칸 답을 가려요", "빈칸을 순서대로 채워 봐요", "틀린 칸만 따로 모아 한 번 더 외워요"]}, {"why": "잠들기 직전에 떠올린 내용은 자는 동안 정리되면서 더 오래 남아요. 책을 덮고 떠올리는 게 핵심이에요.", "how": ["불 끄기 전 10분, 책을 덮어요", "오늘 외운 것을 머릿속으로 차례대로 떠올려요", "안 떠오른 것 하나만 메모해 두고 내일 아침에 확인해요"]}, {"why": "내일 첫 할 일을 미리 정해 두면, 아침에 앉자마자 바로 시작할 수 있어요. 시작이 빠르면 하루 전체가 가벼워져요.", "how": ["내일 계획표를 열어 할 일 목록을 확인해요", "첫 번째로 할 일 하나를 정해요", "그 책과 필기구를 책상 위에 미리 꺼내 둬요"]}, {"why": "책상 위에 여러 권이 있으면 눈이 자꾸 다른 데로 가요. 지금 볼 책 하나만 두면 고민 없이 바로 집중할 수 있어요.", "how": ["책상 위의 책과 물건을 전부 치워요", "지금 공부할 책 하나와 필기구만 꺼내요", "그 책을 다 볼 때까지 다른 책은 꺼내지 않아요"]}];
 const DAILY=["오늘 배운 내용 백지에 5분 동안 써 보기", "오늘 틀린 문제 1개 골라 해설 안 보고 다시 풀기", "내일 볼 과목 범위 목차만 3분 훑어보기", "가장 자신 없는 개념 1개를 소리 내어 설명해 보기", "오늘 공부한 과목 핵심 3줄로 요약하기", "휴대폰 다른 방에 두고 25분 집중 1번 하기", "시험 범위표 보고 남은 분량에 ○ △ × 표시하기", "영어 본문 1개 한글 해석만 보고 영어로 말해 보기", "한국사 사건 5개 연도 순서대로 써 보기", "수학 오답 3문제를 처음부터 손으로 다시 풀기", "통합사회 학습지 빈칸 1장 가리고 채워 보기", "자기 전 10분, 오늘 외운 것 떠올리기(책 덮고)", "내일 계획표 미리 확인하고 첫 할 일 정해 두기", "공부 시작 전 책상 위에 지금 볼 책 하나만 두기"];
 const MS=[{"id": "read", "d": 99, "tag": "자료", "icon": "book2", "t": "벼락치기 회독 시 주의사항", "s": "짧은 기간에 효율적으로 회독하는 법", "b": ["1회독은 속도가 핵심: 한 쪽에 3~5분 넘기지 않기. 모르는 건 연필로 ? 표시만 하고 넘어가기", "2회독부터는 ? 표시한 곳 위주로. 다 아는 쪽은 제목만 보고 내용을 떠올린 뒤 넘기기", "회독할 때마다 표시 색을 바꾸기 (1회독 연필, 2회독 파랑, 3회독 빨강) → 3번 다 걸린 게 진짜 약점", "눈으로 읽기만 하면 \"아는 느낌\"만 남아요. 한 단원 끝날 때마다 책 덮고 1분 동안 떠올려 보기", "한 과목을 하루 종일 하지 말고 2~3과목을 1~2시간씩 돌리기 (같은 과목 3시간 넘기면 효율 뚝)", "시험 날짜가 빠른 과목부터 회독 횟수를 하나 더 확보하기"]}, {"id": "blank", "d": 99, "tag": "자료", "icon": "edit", "t": "백지 테스트 하는 법", "s": "외웠는지 진짜로 확인하는 방법", "b": ["① 단원 제목만 적힌 빈 종이 준비 → ② 책 덮고 생각나는 걸 키워드·구조로 전부 쓰기 (5~10분)", "③ 책 펴서 빨간 펜으로 빠진 것·틀린 것 채우기 → ④ 빨간 글씨만 따로 다시 외우기", "완벽한 문장 말고 \"키워드 + 화살표\"로 쓰기. 예) 자본주의 전개: 상업 → 산업 → 수정 → 신자유", "빨간 글씨가 전체의 30% 넘으면 그 단원은 다음 날 한 번 더", "한국사·통합사회처럼 흐름이 있는 과목에 특히 잘 맞아요"]}, {"id": "wrong", "d": 99, "tag": "자료", "icon": "list", "t": "오답 노트 제대로 쓰는 법", "s": "틀린 문제를 다시 안 틀리게", "b": ["문제를 다 베끼지 말고 문제 번호·쪽수만 적기 (시간 아끼기)", "\"왜 틀렸는지\"를 한 줄로: 개념 몰라서 / 계산 실수 / 문제 잘못 읽음 / 시간 부족 중 하나로 분류", "맞는 풀이의 핵심 한 줄만 적기. 예) \"무리함수 정의역: 루트 안 ≥ 0 먼저 확인\"", "다음 날, 3일 뒤, 시험 전날 이렇게 3번 다시 풀기. 3번 다 맞으면 지우기", "\"계산 실수\"가 반복되면 그 유형만 모아서 시험 때 검산 체크리스트로 쓰기"]}, {"id": "focus", "d": 99, "tag": "자료", "icon": "target", "t": "집중이 안 될 때", "s": "바로 써먹는 환경·습관 정리", "b": ["휴대폰은 \"무음 + 뒤집기\"가 아니라 다른 방이나 가방 안에. 보이기만 해도 집중력이 떨어져요", "25분 공부 + 5분 휴식을 4번 하고 나면 20분 길게 쉬기", "시작이 제일 어려워요. \"딱 5분만\" 하고 시작하면 대부분 계속하게 돼요", "책상 위에는 지금 볼 책 하나, 필기구, 물만. 다음에 볼 책은 바닥이나 가방에", "쉬는 시간에 SNS·쇼츠 금지. 보면 15분이 사라져요. 대신 스트레칭, 물 마시기, 창밖 보기", "집에서 안 되면 장소를 바꾸기 (스터디카페, 도서관, 학교 자습실)"]}, {"id": "memo", "d": 99, "tag": "자료", "icon": "layers", "t": "암기 과목 외우는 법", "s": "한국사·통합사회처럼 외울 게 많을 때", "b": ["외우기 전에 큰 흐름부터: 단원 목차를 보고 \"무슨 이야기인지\" 한 문장으로 정리", "사건은 연도보다 순서가 중요해요. 연표를 손으로 직접 그리고, 원인 → 사건 → 결과로 묶기", "비슷한 개념은 표로 비교: 예) 독점 vs 과점, 금융 자산 종류별 수익성·안전성·유동성", "외운 건 읽기보다 꺼내기로 굳어요: 문제 풀기, 백지 테스트, 친구한테 설명하기", "자기 전 10분 복습 → 다음 날 아침 5분 확인. 잠자는 동안 기억이 정리돼요", "학습지 빈칸은 시험에 그대로 나오는 경우가 많아요. 빈칸만 가리고 3번 채우기"]}, {"id": "mathp", "d": 99, "tag": "자료", "icon": "clock", "t": "수학 시험 대비 요령", "s": "명제~무리함수, 아는 걸 안 틀리기", "b": ["개념 → 교과서 예제 → 문제집 순서. 교과서 문제는 학교 시험에 변형돼서 자주 나와요", "한 문제에 5분 넘게 막히면 표시하고 넘어가기. 나중에 해설 보고 오답 노트로", "단원별 자주 나오는 유형: 명제(역·이·대우, 필요·충분조건), 함수(합성·역함수), 유리·무리함수(그래프 평행이동, 점근선, 정의역·치역)", "그래프 문제는 반드시 직접 그려 보기. 머릿속으로만 하면 부호 실수가 나요", "시험 1주 전부터는 새 문제보다 틀렸던 문제 다시 풀기 비중을 높이기", "실전처럼 시간 재고 풀기: 쉬운 문제는 1~2분, 서술형은 풀이 과정까지 적기"]}, {"id": "engp", "d": 99, "tag": "자료", "icon": "book2", "t": "영어 내신 지문 대비", "s": "교과서·올림포스·모의고사 지문", "b": ["서술형·어법은 수업 시간에 다룬 지문에서만 나와요 → 수업 필기한 부분이 1순위", "지문마다 \"주제 한 줄 + 흐름(문단별 한 줄)\"을 정리해 두면 순서·삽입·요약 유형에 바로 쓰여요", "어법 포인트(관계사, 분사, 수일치, to부정사/동명사)는 원래 문장 형태 그대로 외우기", "한글 해석만 보고 영어 문장 떠올리기 → 서술형(영작·배열) 대비", "외부 지문 3개는 처음 보는 지문이에요. 하루 1~2개씩 모의고사 지문으로 실전 독해 연습", "시험 시간 50분에 28+2문항: 문항당 1분 30초 기준으로 시간 재고 풀어 보기"]}, {"id": "sleep", "d": 99, "tag": "자료", "icon": "moon", "t": "수면·컨디션 관리", "s": "밤새우면 손해인 이유", "b": ["시험 기간에도 최소 6시간은 자기. 잠을 줄이면 다음 날 집중력과 기억력이 같이 떨어져요", "새벽 2시를 넘기지 않기. 늦게 잘수록 다음 날 오전 수업과 아침 시험이 망가져요", "자기 1시간 전부터는 휴대폰 화면 줄이기. 바로 잠들기 힘들어져요", "점심 먹고 졸리면 10~20분 낮잠. 30분 넘기면 오히려 더 피곤해요", "에너지 음료·커피는 오후 4시 이후 피하기 (밤에 잠이 안 와요)", "아침은 꼭 조금이라도 먹기. 빈속이면 2교시쯤 집중력이 떨어져요"]}, {"id": "range7", "d": 7, "tag": "D-7 미션", "icon": "list", "t": "시험 범위 최종 점검", "s": "남은 일주일 계획 다시 세우기", "b": ["과목별 시험 범위표를 꺼내서 다 본 곳 ○, 대충 본 곳 △, 안 본 곳 ×로 표시하기", "× 부분부터 이번 주 계획에 먼저 넣기 (분량 나눠 넣기 기능 활용)", "시험 날짜 순서대로 과목 우선순위 정하기: 첫날 과목은 D-3까지 2회독 끝내기", "목표 등급 대비 지금 위치를 솔직하게 체크. 버릴 건 버리고 확실히 맞힐 걸 챙기기", "선생님이 \"중요하다\", \"시험에 낸다\"고 한 부분 필기 다시 찾아서 따로 모으기"]}, {"id": "time7", "d": 7, "tag": "D-7 미션", "icon": "clock", "t": "실전 시간 배분 연습", "s": "시험 시간에 맞춰 푸는 연습", "b": ["과목마다 실제 시험 시간(예: 50분)을 타이머로 맞추고 한 번에 풀어 보기", "처음 한 바퀴는 쉬운 문제만 빠르게 풀고, 막히는 건 표시하고 넘어가기", "두 번째 바퀴에서 표시한 문제 풀기 → 마지막 10분은 마킹과 검토", "서술형은 답만 쓰지 말고 풀이·근거까지. 부분 점수가 있어요", "연습 끝나면 \"어디서 시간이 오래 걸렸는지\" 한 줄로 메모해 두기"]}, {"id": "mental", "d": 3, "tag": "D-3 미션", "icon": "heart", "t": "멘탈 관리 가이드", "s": "불안할 때 마음 잡는 법", "b": ["긴장되는 건 정상이에요. 다 못 끝내도 괜찮다고 미리 정해 두기", "친구 진도랑 비교하지 않기. 단톡방에서 \"나 3회독 했어\" 같은 말은 잠깐 끄기", "불안할 땐 4초 들이마시고 4초 참고 6초 내쉬기를 3번", "지금까지 제출한 플래너와 완료한 할 일을 다시 보기. 해 온 게 생각보다 많아요", "\"망하면 어떡하지\" 대신 \"오늘 할 3개만 끝내자\"로 생각 바꾸기", "잠을 줄여 가며 공부하지 않기 (최소 6시간, 평소 시간에 자고 일어나기)"]}, {"id": "one", "d": 3, "tag": "D-3 미션", "icon": "layers", "t": "시험 직전 단권화 전략", "s": "마지막 회독용 정리 방법", "b": ["교과서·학습지·문제집에 흩어진 내용을 한 권(주로 학습지나 교과서)에 모으기", "틀린 문제의 핵심 개념은 해당 페이지 여백에 한 줄로 옮겨 적기", "선생님이 강조한 부분은 색 하나로 통일해서 표시", "새 자료는 D-3부터 더 늘리지 않기. 새 문제집 사는 건 불안감 때문이에요", "시험 전날엔 단권화한 한 권만 넘기면서 마지막 회독 (과목당 30분~1시간)"]}, {"id": "real", "d": 3, "tag": "D-3 미션", "icon": "target", "t": "시험 직전 실전 감각 올리는 법", "s": "단계별 마무리와 시간 배분", "b": ["시험 시간표 순서대로 공부 순서를 바꾸기 (시험 날 아침 머리가 그 과목에 맞춰져요)", "실제 시험 시작 시각에 맞춰 문제 풀어 보기 (예: 9시 5분에 시작)", "OMR 마킹 시간까지 포함해서 시간 배분 연습하기", "한 문제에 3분 넘게 막히면 표시하고 넘어가는 연습", "자주 틀리는 실수 유형 3개를 메모해서 시험 직전에 보기 (부호, 단위, \"옳지 않은 것\" 놓치기)"]}, {"id": "night", "d": 1, "tag": "D-1 미션", "icon": "moon", "t": "시험 전날 밤 루틴", "s": "새로 외우지 말고 정리만", "b": ["저녁부터는 새 내용 X. 단권화 노트, 오답 노트, 빨간 글씨만 보기", "내일 볼 과목 순서대로 30분~1시간씩 마지막 훑기", "가방 미리 싸기: 컴퓨터용 사인펜 2개, 수정테이프, 샤프·지우개, 시계, 학생증", "평소보다 늦게 자지 않기. 늦어도 12시~1시에는 눕기", "알람 2개 맞추기 (휴대폰 + 다른 알람)"]}, {"id": "day", "d": 1, "tag": "D-1 미션", "icon": "list", "t": "시험 당일 행동강령 체크리스트", "s": "가방 챙기기부터 마킹까지 11가지", "cl": true}, {"id": "during", "d": 0, "tag": "시험 기간", "icon": "flame", "t": "시험 기간 중 하루 보내는 법", "s": "끝난 과목은 잊고 다음 과목으로", "b": ["시험 끝나면 친구랑 답 맞춰 보지 않기. 다음 과목 멘탈만 흔들려요", "집에 오면 30분~1시간 쉬고, 바로 다음 날 과목으로 전환", "다음 날 과목은 단권화한 것 + 오답 위주로. 새로 푸는 문제는 최소한으로", "시험이 하루 비는 날(주말)은 남은 과목 2회독을 마무리하는 날로 쓰기", "잘 못 본 과목이 있어도 평균이에요. 남은 과목에서 만회할 수 있어요"]}];
 const CL=['전날 밤 가방 챙기기 (컴퓨터용 사인펜·수정테이프·샤프·지우개·시계)','평소와 같은 시간에 잠들기','기상 시간: {wake}','아침은 가볍게, 꼭 먹기','학교에 {arrive}까지 도착하기','쉬는 시간엔 다음 과목 단권화 노트만 보기','끝난 과목은 친구랑 답 맞춰 보지 않기','시험지 받으면 전체 문항 수와 배점 먼저 확인','모르는 문제는 표시하고 넘어가기 (최대 {max}분)','마킹은 끝나기 10분 전까지 끝내기','마킹 후 이름·번호·답 밀림 다시 확인'];
 function missions(){
   const dd=dday(),n=dd?dd.n:999,t=today();
-  const daily={id:'daily',daily:true,tag:'오늘의 미션',icon:'target',t:DAILY[Math.abs(diff('2026-01-01',t))%DAILY.length],s:'오늘 안에 해 보기'};
+  const di=Math.abs(diff('2026-01-01',t))%DAILY.length,daily={id:'daily',daily:true,tag:'오늘의 미션',icon:'target',t:DAILY[di],x:DAILY_X[di],s:'오늘 안에 해 보기'};
   return [daily,...MS.map(m=>({...m,lock:!(m.d===99||(dd&&n<=m.d))}))];
 }
 function unread(){return missions().filter(m=>!m.lock&&m.d!==99&&(m.daily?!S.mdone[today()]:!S.read[m.id])).length}
@@ -864,12 +894,14 @@ function rTimeline(d){
       </div></div>`}).join('');
   return `<div class="tl2">${html}</div>`;
 }
-const LETTERS=[{"tone": "다정한 엄마처럼", "from": "늘 네 편인 사람이", "b": ["{N}아, 오늘도 책상 앞에 앉았구나. 그거 하나만으로도 엄마는 대견해.", "시험이 다가오면 괜히 마음이 조급해지고, 옆 친구는 다 해 놓은 것 같고, 나만 뒤처진 것 같지? 그런데 그건 다들 똑같이 느끼는 거야. 너만 그런 게 아니야.", "공부는 하루에 산을 옮기는 일이 아니라, 매일 돌 하나씩 옮기는 일이야. 오늘 옮긴 돌이 작아 보여도 괜찮아. 3주 뒤에 돌아보면 꽤 높은 탑이 쌓여 있을 거야.", "대신 하나만 약속해 줘. 밥은 꼭 챙겨 먹고, 너무 늦게까지 버티지 말기. 네 몸이 버텨 줘야 머리도 따라와.", "점수가 어떻게 나오든 엄마는 오늘 네가 노력한 걸 알아. 그거면 충분해. 오늘도 수고했어."]}, {"tone": "단호한 선생님처럼", "from": "기대하고 있는 선생님이", "b": ["{N}, 솔직하게 말할게. 계획표를 예쁘게 짜는 것과 실제로 공부하는 건 완전히 다른 일이다.", "오늘 계획한 것 중에 몇 개를 끝냈니? 못 끝냈다면 이유를 정확히 적어 봐. \"피곤해서\"는 이유가 아니라 변명일 때가 많다. 휴대폰을 몇 번 들었는지, 시작을 몇 시에 했는지를 봐.", "시험은 네 사정을 봐주지 않는다. 대신 정직하다. 한 만큼 나온다. 그러니 오늘 한 시간을 제대로 쓰면, 그 한 시간은 반드시 시험지 위에서 돌아온다.", "지금 네가 할 일은 거창한 결심이 아니다. 타이머를 켜고, 휴대폰을 다른 방에 두고, 25분 동안 한 과목만 보는 거다. 딱 그것만 해라.", "나는 네가 할 수 있다고 생각해서 이렇게 말하는 거다. 할 수 없는 사람한테는 이런 말 안 한다. 지금 시작해."]}, {"tone": "든든한 아빠처럼", "from": "멀리서 응원하는 아빠가", "b": ["{N}아, 아빠가 학생 때를 생각해 보면 시험 기간이 제일 길게 느껴졌던 것 같아. 하루가 왜 이렇게 빨리 가는지, 할 건 왜 이렇게 많은지.", "그런데 지나고 나서 기억에 남는 건 몇 점을 받았는지가 아니라, 그때 내가 포기하지 않고 끝까지 해 봤는지더라. 그 경험이 나중에 훨씬 큰 일을 할 때 버팀목이 돼.", "너무 완벽하게 하려고 하지 마. 100개 중에 70개만 확실히 알아도 시험은 생각보다 잘 볼 수 있어. 모르는 30개에 매달려서 아는 70개까지 흔들리면 그게 제일 아까운 거야.", "힘들면 잠깐 쉬어도 돼. 산책하고, 물 한 잔 마시고, 다시 앉으면 돼. 쉬는 건 지는 게 아니야.", "아빠는 결과보다 네가 어떤 사람으로 크는지가 더 궁금해. 오늘도 잘 버텨 줘서 고마워."]}, {"tone": "엄한 담임 선생님처럼", "from": "끝까지 지켜볼 담임이", "b": ["{N}, 시험까지 남은 날을 세어 봐라. 생각보다 많지 않다. 그리고 생각보다 적지도 않다.", "지금 제일 위험한 건 \"아직 시간 있으니까\"라는 생각이다. 그 생각이 3번만 반복되면 시험 전날이 된다. 오늘 할 일을 내일로 미루는 순간, 내일의 너는 두 배를 해야 한다.", "미룬 할 일 목록을 열어 봐라. 거기 쌓인 게 많다면 그건 네가 게을러서가 아니라 계획이 현실보다 컸다는 뜻이다. 계획을 줄여라. 대신 줄인 건 반드시 끝내라.", "목표 등급을 다시 봐라. 그 숫자는 누가 정해 준 게 아니라 네가 정한 거다. 네가 정한 약속을 네가 지키는 연습, 그게 공부보다 더 중요한 거다.", "오늘 밤 자기 전에 플래너를 제출해라. 작은 약속부터 지키는 사람이 큰 약속도 지킨다."]}, {"tone": "친한 언니처럼", "from": "먼저 겪어 본 언니가", "b": ["{N}아 안녕! 언니도 고1 때 시험 기간 진짜 싫었어 ㅋㅋ 특히 범위 처음 받았을 때 그 막막함 알지?", "근데 언니가 해 보니까 제일 효과 있었던 건 거창한 공부법이 아니었어. 그냥 \"오늘 이거 3개만 하자\" 정하고 그것만 끝내는 거. 3개 다 하면 그날은 성공한 날이야.", "그리고 단톡방 너무 오래 보지 마. 누가 몇 회독 했다, 누가 밤새웠다 이런 얘기 들으면 괜히 불안해지거든. 그 친구들도 사실 반은 부풀려서 말하는 거야 ㅋㅋ", "공부하다가 갑자기 다 놓고 싶어지는 순간이 꼭 와. 그럴 땐 10분만 누워 있다가 다시 일어나. 포기한 게 아니라 숨 고르기 한 거야.", "너 진짜 잘하고 있어. 이렇게 앱까지 만들어서 계획 세우는 애가 어디 흔한 줄 알아? 언니는 너 믿어!"]}, {"tone": "냉정한 코치처럼", "from": "네 기록을 보는 코치가", "b": ["{N}, 기록은 거짓말을 안 한다. 이번 주 공부 시간 그래프를 열어 봐.", "계획한 시간과 실제 시간 사이에 차이가 크다면, 그 차이가 바로 네가 이번 시험에서 잃을 점수다. 차이가 작다면, 너는 이미 이기고 있는 중이다.", "목표 등급이 높은 과목에 시간이 제일 적게 가 있지는 않은지 확인해라. 사람은 자기가 잘하는 과목, 편한 과목만 붙잡는 경향이 있다. 불편한 과목에 먼저 손을 대라.", "운동선수는 컨디션이 나쁜 날에도 훈련을 빼지 않는다. 대신 양을 줄인다. 오늘 하기 싫다면 30분만 해라. 0과 30분은 하늘과 땅 차이다.", "오늘 끝나면 타이머 기록 하나라도 남겨라. 기록이 쌓이면 자신감이 된다."]}, {"tone": "할머니처럼", "from": "우리 강아지를 아끼는 할머니가", "b": ["아이고 우리 {N}이, 요즘 공부한다고 얼굴이 핼쑥해졌겠네.", "할머니는 공부는 잘 모르지만 이건 알아. 사람은 잘 먹고 잘 자야 힘이 난다. 밥 거르지 말고, 밤에 너무 늦게까지 불 켜 놓지 말아라.", "옛날 어른들이 그랬어. 천 리 길도 한 걸음부터라고. 오늘 한 걸음 걸었으면 됐다. 남들 뛰는 거 보고 너까지 넘어지게 뛸 필요 없어.", "시험 잘 보면 좋지. 그런데 못 봐도 우리 강아지는 우리 강아지야. 그러니까 너무 무서워하지 말고 마음 편하게 해.", "오늘도 애썼다. 따뜻한 물 한 잔 마시고 푹 자거라."]}, {"tone": "진지한 선생님처럼", "from": "너의 다음 걸음을 기대하는 선생님이", "b": ["{N}, 공부가 왜 힘든지 생각해 본 적 있니? 머리가 나빠서가 아니라, 모르는 걸 마주하는 게 불편하기 때문이야.", "그래서 사람들은 아는 걸 또 읽어. 형광펜 칠한 데를 또 보고, 이미 맞힌 문제를 또 풀어. 그러면 공부한 느낌은 나는데 실력은 그대로야.", "진짜 공부는 불편한 곳에서 시작돼. 책을 덮고 떠올려 봤는데 안 떠오르는 그 순간, 틀린 문제를 해설 없이 다시 풀다가 막히는 그 순간. 그 순간이 바로 네 머리가 자라는 순간이야.", "그러니까 오늘 불편했다면, 그건 잘하고 있다는 신호야. 막혔다고 좌절하지 말고 \"아, 지금 성장하고 있구나\" 하고 한 번만 더 붙잡아 봐.", "너는 국제 쪽으로 가고 싶다고 했지. 세계를 이해하려면 결국 모르는 걸 계속 마주하는 힘이 필요해. 지금 하는 공부가 그 연습이야."]}, {"tone": "따끔한 엄마처럼", "from": "잔소리는 해도 네 편인 엄마가", "b": ["{N}! 엄마가 한마디만 할게. 폰 내려놔.", "너도 알지? 쇼츠 하나만 보려다가 30분 사라지는 거. 그 30분이면 한국사 한 단원 백지 테스트 할 수 있어. 엄마가 뭐라 하는 게 아니라 네 시간이 아까워서 그래.", "그리고 계획 너무 빡빡하게 세우지 마. 매일 다 못 지키면 자꾸 자신감만 떨어져. 할 수 있는 만큼만 세우고, 그걸 꼭 지키는 게 훨씬 나아.", "시험 끝나면 하고 싶은 거 마음껏 해. 엄마가 맛있는 것도 해 줄게. 그러니까 지금은 딱 3주만 집중하자.", "잔소리 많이 해서 미안해. 근데 엄마는 우리 딸이 후회 안 했으면 좋겠어서 그래. 사랑해."]}, {"tone": "미래의 나처럼", "from": "시험을 끝낸 미래의 내가", "b": ["안녕, 시험 기간 한가운데 있는 {N}아. 나는 시험을 다 끝낸 너야.", "지금 네가 얼마나 지쳤는지 기억나. 범위는 많고, 시간은 없고, 다 포기하고 싶었던 그 밤들.", "그런데 하나 알려 줄게. 지금 네가 하는 작은 선택들이 생각보다 크게 남아. 폰 대신 책을 펼친 30분, 졸려도 한 번 더 본 오답 노트, 그런 게 시험지에서 하나하나 정답이 됐어.", "그리고 결과가 완벽하지 않았던 과목도 있었어. 근데 괜찮았어. 그 과목에서 뭘 놓쳤는지 알게 돼서 다음엔 더 잘할 수 있었거든.", "그러니까 오늘 하루만 잘 버텨 줘. 내가 지금 여기서 고맙다고 말하고 있어."]}];
+const LETTERS=[{"tone": "다정한 엄마처럼", "from": "늘 네 편인 사람이", "b": ["{N아}, 오늘도 책상 앞에 앉았구나. 그거 하나만으로도 엄마는 대견해.", "시험이 다가오니까 남은 날을 세어 보면 생각보다 짧아서 마음이 급해지지? 그런데 급할수록 \"오늘 할 일 목록 맨 위 하나\"만 보면 돼. 목록 전체를 보면 숨이 막히지만, 한 줄만 보면 손이 움직여.", "지문 하나, 문제 하나 끝낼 때마다 시험지 위에서 낯익은 문장이 하나씩 늘어나는 거야. 오늘 한 번호가 시험장에서 \"어, 이거 봤던 거다\" 하는 순간이 돼. 그 순간은 미룬 날이 아니라 해낸 날에서만 나와.", "하기 싫은 날엔 30분만 해도 괜찮아. 0분과 30분은 완전히 다른 하루야. 0분으로 끝난 날은 다음 날을 더 무겁게 만들고, 30분이라도 한 날은 다음 날을 가볍게 만들어 줘.", "대신 하나만 약속해 줘. 밥은 꼭 챙겨 먹고, 새벽까지 버티지 말기. 네 몸이 버텨 줘야 머리도 따라와.", "점수가 어떻게 나오든 엄마는 네가 오늘 앉아 있었던 걸 알아. 지금 타이머 하나만 눌러 보자. 오늘도 수고했어."]}, {"tone": "시험 끝난 날의 나처럼", "from": "시험 끝난 날의 {N가}", "b": ["{N아}, 나 시험 끝난 날의 너야. 솔직히 말할게. 시험지를 받았을 때 제일 먼저 든 생각은 \"아, 이거 그때 그 문제다\"였어.", "낯익은 문장이 나왔을 때 그게 우연이 아니라는 걸 알았어. 졸린데도 한 번호 더 끝낸 밤, 백지에 다시 써 본 그 5분. 그때는 티도 안 났는데, 시험장에서는 그게 손을 먼저 움직이게 해 줬어.", "반대로 \"내일 하지 뭐\" 하고 넘긴 부분은 정확하게 거기서 막혔어. 시험은 내가 공부한 날을 기억하는 게 아니라, 내가 미룬 날을 기억하더라.", "그러니까 오늘 하루를 크게 바꾸려고 하지 마. 오늘 할 일 맨 위 하나만 끝내. 그거 하나 끝내면 두 번째는 생각보다 쉽게 시작돼. 시작이 제일 무거운 거야.", "시험 끝나고 나는 꽤 후련했어. 결과보다 \"그래도 끝까지 했다\"는 게 제일 오래 남더라. 그 기분, 너도 꼭 느꼈으면 좋겠어.", "지금 타이머 눌러. 딱 하나만."]}, {"tone": "먼저 해 본 선배처럼", "from": "작년에 같은 시험을 본 선배가", "b": ["안녕, 작년에 이 시험을 먼저 본 선배야. 지금 네 마음이 어떤지 대충 알 것 같아. 할 건 많은데 시간은 없고, 다들 나보다 많이 한 것 같지?", "내가 해 보고 제일 후회한 게 뭔지 알려 줄게. 처음 일주일을 \"계획 세우기\"에만 썼어. 예쁜 계획표는 생겼는데 정작 공부한 건 없었지. 계획은 10분이면 충분해. 나머지는 그냥 하는 거야.", "두 번째 후회는 쉬운 과목만 붙잡고 있었던 거야. 하기 편한 것만 하다 보니 공부한 느낌은 났는데, 시험 전날 제일 무서운 과목이 그대로 남아 있었어. 하기 싫은 과목일수록 하루 중 가장 맑은 시간에 먼저 해.", "그리고 학교 학습지랑 수업 필기, 이거 진짜 무시하면 안 돼. 문제집 열 권보다 선생님이 수업 시간에 \"이거 중요해\"라고 한 한 줄이 더 많이 나와.", "마지막으로, 잠은 꼭 자. 밤새운 다음 날 시험지 글자가 안 읽히는 경험은 너는 안 했으면 좋겠어.", "너는 나보다 잘할 거야. 지금 이 편지를 읽고 있다는 것부터 이미 신경 쓰고 있다는 뜻이니까. 오늘 하나만 끝내 보자."]}, {"tone": "단짝 친구처럼", "from": "옆자리 짝꿍이", "b": ["야 {N아}, 나야. 요즘 시험 때문에 얼굴이 반쪽이 됐더라. 나도 똑같아. 어제는 책 펴 놓고 한 시간 동안 폰만 봤어. 진짜 한심하지?", "근데 그러다가 오늘 아침에 그냥 딱 25분만 하자고 타이머를 맞췄거든. 신기하게 25분 지나니까 조금 더 하고 싶어지더라. 시작이 제일 귀찮은 거였어.", "우리 같이 하나만 정하자. 공부 시작할 때 폰은 가방 안에. 둘 다 그거 지키면 시험 끝나고 맛있는 거 먹으러 가는 거야. 내가 쏠게. 진짜로.", "그리고 너 혼자 뒤처진 것 같다는 생각, 그거 다들 해. 단톡방에서 \"나 벌써 3회독 함\" 이러는 애들 말은 반만 믿어. 그냥 어제의 너보다 한 쪽만 더 하면 돼.", "힘들면 말해. 같이 투덜대 주고, 같이 다시 앉아 줄게.", "그럼 지금 각자 자리에서 25분 시작! 끝나면 칭찬해 줘야 돼."]}, {"tone": "현실적인 과외쌤처럼", "from": "네 문제집을 아는 쌤이", "b": ["{N}, 쌤이야. 오늘은 듣기 좋은 말보다 시험에서 점수가 되는 이야기만 할게.", "첫째, 영어 내신은 본문이 전부야. 수업 시간에 다룬 지문은 문장 순서, 연결어, 핵심 어휘까지 머리에 들어가 있어야 해. 지문마다 \"주제 한 줄 + 문단별 흐름 한 줄\"을 정리해 두면 순서·삽입·요약 문제가 훨씬 쉬워져.", "둘째, 수학은 아는 문제를 틀리지 않는 게 먼저야. 새 문제를 많이 푸는 것보다, 틀렸던 문제를 처음부터 다시 손으로 풀어 보는 게 점수를 더 올려 줘.", "셋째, 암기 과목은 \"읽기\"가 아니라 \"떠올리기\"로 공부해. 책을 세 번 읽는 것보다, 한 번 읽고 덮은 다음 백지에 써 보는 게 훨씬 오래 남아.", "마지막으로 시간 계획. 하루에 다 하려고 하지 말고, 오늘 할 일 목록에서 위에서부터 차례대로 끝내. 다 못 끝낸 건 내일 맨 앞으로 옮기면 돼. 순서만 지키면 범위는 결국 다 끝나.", "할 수 있어. 쌤은 네가 해낼 수 있는 분량만 시키는 거야. 오늘 첫 번째 할 일부터 시작하자."]}, {"tone": "작년의 나처럼", "from": "작년 이맘때의 {N가}", "b": ["{N아}, 작년 이맘때의 너야. 기억나? 그때도 시험 3주 전쯤에 \"이번엔 진짜 미리 해야지\" 했던 거.", "그리고 기억날 거야. 결국 마지막 주에 몰아서 하느라 잠도 못 자고, 시험 끝나고 \"조금만 더 일찍 시작할걸\" 했던 거. 그 후회를 나는 다시 하고 싶지 않아.", "그래서 너한테 부탁하고 싶어. 이번엔 지금 하자. 거창한 계획 말고, 오늘 할 일 하나. 그거면 작년이랑 벌써 달라.", "작년의 나는 \"완벽하게 할 수 없으면 시작도 안 하는\" 사람이었어. 근데 완벽한 하루는 안 와. 대충이라도 한 하루가 쌓여서 결국 점수가 되더라.", "올해의 너는 다를 거라고 믿어. 이미 이렇게 앱까지 만들어서 계획을 세우고 있잖아. 그건 작년의 나는 못 했던 거야.", "자, 이제 작년의 나를 이겨 줘. 지금 첫 번째 할 일 시작."]}, {"tone": "같이 공부하는 메이트처럼", "from": "같은 시간에 공부하는 메이트가", "b": ["{N}, 지금 이 시간에도 어딘가에서 너처럼 책상 앞에 앉아 있는 사람이 많아. 혼자 하는 것 같아도 사실 혼자가 아니야.", "나도 지금 공부하다가 잠깐 쉬는 중이야. 솔직히 오늘은 집중이 잘 안됐어. 그래서 방법을 바꿔 봤어. 큰 목표 대신 \"이 페이지까지만\"으로 아주 작게 쪼갰더니 조금씩 굴러가더라.", "너도 오늘 막막하면 그렇게 해 봐. 이 문제까지만, 이 지문까지만. 작은 끝이 여러 개 모이면 큰 하루가 돼.", "그리고 쉬는 시간엔 진짜로 쉬자. 폰으로 쉬면 머리가 더 피곤해져. 물 한 잔 마시고 창밖 보고 스트레칭 한 번. 그게 다음 25분을 살려 줘.", "오늘 우리 둘 다 계획한 것 중에 하나만 더 끝내 보자. 내일 또 이 시간에 각자 자리에서 만나는 거야.", "그럼 다시 시작! 화이팅."]}, {"tone": "목청 큰 응원단장처럼", "from": "맨 앞줄 응원단장이", "b": ["{N}! {N}! 오늘도 책상 앞에 앉은 거 다 봤어! 그거 하나로 이미 1승이야!", "솔직히 공부는 경기랑 똑같아. 한 번에 역전하는 게 아니라, 매일 한 점씩 쌓는 거야. 오늘 한 문제가 한 점, 오늘 외운 단어 하나가 한 점. 점수판은 거짓말을 안 해.", "지치는 날도 있겠지. 괜찮아, 선수도 쉬는 시간이 있어. 대신 경기를 포기하지만 마. 30분이라도 뛰면 그날 경기는 지지 않은 거야.", "남들 점수판 보지 마! 네 점수판만 봐. 어제의 너보다 한 점 많으면 오늘은 이긴 거야.", "시험 날, 시험지를 받는 순간까지 우리가 맨 앞줄에서 계속 소리 지를 거야. 넌 할 수 있다고!", "자, 휘슬 분다! 지금 첫 번째 할 일 시작!"]}, {"tone": "단호한 선생님처럼", "from": "기대하고 있는 선생님이", "b": ["{N}, 솔직하게 말할게. 계획표를 예쁘게 짜는 것과 실제로 공부하는 건 완전히 다른 일이다.", "오늘 계획한 것 중에 몇 개를 끝냈니? 못 끝냈다면 이유를 정확히 적어 봐. \"피곤해서\"는 이유가 아니라 변명일 때가 많다. 휴대폰을 몇 번 들었는지, 시작을 몇 시에 했는지를 봐.", "시험은 네 사정을 봐주지 않는다. 대신 정직하다. 한 만큼 나온다. 그러니 오늘 한 시간을 제대로 쓰면, 그 한 시간은 반드시 시험지 위에서 돌아온다.", "지금 네가 할 일은 거창한 결심이 아니다. 타이머를 켜고, 휴대폰을 다른 방에 두고, 25분 동안 한 과목만 보는 거다. 딱 그것만 해라.", "나는 네가 할 수 있다고 생각해서 이렇게 말하는 거다. 할 수 없는 사람한테는 이런 말 안 한다. 지금 시작해."]}, {"tone": "든든한 아빠처럼", "from": "멀리서 응원하는 아빠가", "b": ["{N아}, 아빠가 학생 때를 생각해 보면 시험 기간이 제일 길게 느껴졌던 것 같아. 하루가 왜 이렇게 빨리 가는지, 할 건 왜 이렇게 많은지.", "그런데 지나고 나서 기억에 남는 건 몇 점을 받았는지가 아니라, 그때 내가 포기하지 않고 끝까지 해 봤는지더라. 그 경험이 나중에 훨씬 큰 일을 할 때 버팀목이 돼.", "너무 완벽하게 하려고 하지 마. 100개 중에 70개만 확실히 알아도 시험은 생각보다 잘 볼 수 있어. 모르는 30개에 매달려서 아는 70개까지 흔들리면 그게 제일 아까운 거야.", "힘들면 잠깐 쉬어도 돼. 산책하고, 물 한 잔 마시고, 다시 앉으면 돼. 쉬는 건 지는 게 아니야.", "아빠는 결과보다 네가 어떤 사람으로 크는지가 더 궁금해. 오늘도 잘 버텨 줘서 고마워."]}, {"tone": "엄한 담임 선생님처럼", "from": "끝까지 지켜볼 담임이", "b": ["{N}, 시험까지 남은 날을 세어 봐라. 생각보다 많지 않다. 그리고 생각보다 적지도 않다.", "지금 제일 위험한 건 \"아직 시간 있으니까\"라는 생각이다. 그 생각이 3번만 반복되면 시험 전날이 된다. 오늘 할 일을 내일로 미루는 순간, 내일의 너는 두 배를 해야 한다.", "미룬 할 일 목록을 열어 봐라. 거기 쌓인 게 많다면 그건 네가 게을러서가 아니라 계획이 현실보다 컸다는 뜻이다. 계획을 줄여라. 대신 줄인 건 반드시 끝내라.", "목표 등급을 다시 봐라. 그 숫자는 누가 정해 준 게 아니라 네가 정한 거다. 네가 정한 약속을 네가 지키는 연습, 그게 공부보다 더 중요한 거다.", "오늘 밤 자기 전에 플래너를 제출해라. 작은 약속부터 지키는 사람이 큰 약속도 지킨다."]}, {"tone": "친한 언니처럼", "from": "먼저 겪어 본 언니가", "b": ["{N아} 안녕! 언니도 고1 때 시험 기간 진짜 싫었어 ㅋㅋ 특히 범위 처음 받았을 때 그 막막함 알지?", "근데 언니가 해 보니까 제일 효과 있었던 건 거창한 공부법이 아니었어. 그냥 \"오늘 이거 3개만 하자\" 정하고 그것만 끝내는 거. 3개 다 하면 그날은 성공한 날이야.", "그리고 단톡방 너무 오래 보지 마. 누가 몇 회독 했다, 누가 밤새웠다 이런 얘기 들으면 괜히 불안해지거든. 그 친구들도 사실 반은 부풀려서 말하는 거야 ㅋㅋ", "공부하다가 갑자기 다 놓고 싶어지는 순간이 꼭 와. 그럴 땐 10분만 누워 있다가 다시 일어나. 포기한 게 아니라 숨 고르기 한 거야.", "너 진짜 잘하고 있어. 이렇게 앱까지 만들어서 계획 세우는 애가 어디 흔한 줄 알아? 언니는 너 믿어!"]}, {"tone": "냉정한 코치처럼", "from": "네 기록을 보는 코치가", "b": ["{N}, 기록은 거짓말을 안 한다. 이번 주 공부 시간 그래프를 열어 봐.", "계획한 시간과 실제 시간 사이에 차이가 크다면, 그 차이가 바로 네가 이번 시험에서 잃을 점수다. 차이가 작다면, 너는 이미 이기고 있는 중이다.", "목표 등급이 높은 과목에 시간이 제일 적게 가 있지는 않은지 확인해라. 사람은 자기가 잘하는 과목, 편한 과목만 붙잡는 경향이 있다. 불편한 과목에 먼저 손을 대라.", "운동선수는 컨디션이 나쁜 날에도 훈련을 빼지 않는다. 대신 양을 줄인다. 오늘 하기 싫다면 30분만 해라. 0과 30분은 하늘과 땅 차이다.", "오늘 끝나면 타이머 기록 하나라도 남겨라. 기록이 쌓이면 자신감이 된다."]}, {"tone": "할머니처럼", "from": "우리 강아지를 아끼는 할머니가", "b": ["아이고 우리 {N이}, 요즘 공부한다고 얼굴이 핼쑥해졌겠네.", "할머니는 공부는 잘 모르지만 이건 알아. 사람은 잘 먹고 잘 자야 힘이 난다. 밥 거르지 말고, 밤에 너무 늦게까지 불 켜 놓지 말아라.", "옛날 어른들이 그랬어. 천 리 길도 한 걸음부터라고. 오늘 한 걸음 걸었으면 됐다. 남들 뛰는 거 보고 너까지 넘어지게 뛸 필요 없어.", "시험 잘 보면 좋지. 그런데 못 봐도 우리 강아지는 우리 강아지야. 그러니까 너무 무서워하지 말고 마음 편하게 해.", "오늘도 애썼다. 따뜻한 물 한 잔 마시고 푹 자거라."]}, {"tone": "진지한 선생님처럼", "from": "너의 다음 걸음을 기대하는 선생님이", "b": ["{N}, 공부가 왜 힘든지 생각해 본 적 있니? 머리가 나빠서가 아니라, 모르는 걸 마주하는 게 불편하기 때문이야.", "그래서 사람들은 아는 걸 또 읽어. 형광펜 칠한 데를 또 보고, 이미 맞힌 문제를 또 풀어. 그러면 공부한 느낌은 나는데 실력은 그대로야.", "진짜 공부는 불편한 곳에서 시작돼. 책을 덮고 떠올려 봤는데 안 떠오르는 그 순간, 틀린 문제를 해설 없이 다시 풀다가 막히는 그 순간. 그 순간이 바로 네 머리가 자라는 순간이야.", "그러니까 오늘 불편했다면, 그건 잘하고 있다는 신호야. 막혔다고 좌절하지 말고 \"아, 지금 성장하고 있구나\" 하고 한 번만 더 붙잡아 봐.", "너는 국제 쪽으로 가고 싶다고 했지. 세계를 이해하려면 결국 모르는 걸 계속 마주하는 힘이 필요해. 지금 하는 공부가 그 연습이야."]}, {"tone": "따끔한 엄마처럼", "from": "잔소리는 해도 네 편인 엄마가", "b": ["{N}! 엄마가 한마디만 할게. 폰 내려놔.", "너도 알지? 쇼츠 하나만 보려다가 30분 사라지는 거. 그 30분이면 한국사 한 단원 백지 테스트 할 수 있어. 엄마가 뭐라 하는 게 아니라 네 시간이 아까워서 그래.", "그리고 계획 너무 빡빡하게 세우지 마. 매일 다 못 지키면 자꾸 자신감만 떨어져. 할 수 있는 만큼만 세우고, 그걸 꼭 지키는 게 훨씬 나아.", "시험 끝나면 하고 싶은 거 마음껏 해. 엄마가 맛있는 것도 해 줄게. 그러니까 지금은 딱 3주만 집중하자.", "잔소리 많이 해서 미안해. 근데 엄마는 우리 딸이 후회 안 했으면 좋겠어서 그래. 사랑해."]}, {"tone": "미래의 나처럼", "from": "시험을 끝낸 미래의 내가", "b": ["안녕, 시험 기간 한가운데 있는 {N아}. 나는 시험을 다 끝낸 너야.", "지금 네가 얼마나 지쳤는지 기억나. 범위는 많고, 시간은 없고, 다 포기하고 싶었던 그 밤들.", "그런데 하나 알려 줄게. 지금 네가 하는 작은 선택들이 생각보다 크게 남아. 폰 대신 책을 펼친 30분, 졸려도 한 번 더 본 오답 노트, 그런 게 시험지에서 하나하나 정답이 됐어.", "그리고 결과가 완벽하지 않았던 과목도 있었어. 근데 괜찮았어. 그 과목에서 뭘 놓쳤는지 알게 돼서 다음엔 더 잘할 수 있었거든.", "그러니까 오늘 하루만 잘 버텨 줘. 내가 지금 여기서 고맙다고 말하고 있어."]}];
 let letterIdx=-1;
 function pickLetter(){let i;do{i=Math.floor(Math.random()*LETTERS.length)}while(LETTERS.length>1&&(i===letterIdx||i===S.lastLetter));letterIdx=i;S.lastLetter=i;try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function nameFill(p,nm){const n=nm||'친구',c=n.charCodeAt(n.length-1)-0xAC00,bat=c>=0&&c<=11171&&c%28!==0;
+  return p.replaceAll('{N아}',n+(bat?'아':'야')).replaceAll('{N이}',n+(bat?'이':'')).replaceAll('{N가}',n+(bat?'이가':'가')).replaceAll('{N}',n)}
 function letterHtml(){if(letterIdx<0)pickLetter();const L=LETTERS[letterIdx],nm=S.name||'';const open=openMs.has('letter');
   return `<div class="mbox lbox ${open?'open':''}" style="--i:3"><button class="mbh lth" data-act="lToggle">${ic('mail')}<b>오늘의 편지</b><span class="mbs">${esc(L.tone)}</span><span class="chev">${ic('down')}</span></button>
-  <div class="msb"><div><div class="letter">${L.b.map(p=>`<p>${esc(p.replaceAll('{N}',nm||'친구'))}</p>`).join('')}<p class="lfrom">— ${esc(L.from)}</p>
+  <div class="msb"><div><div class="letter">${L.b.map(p=>`<p>${esc(nameFill(p,nm))}</p>`).join('')}<p class="lfrom">— ${esc(nameFill(L.from,nm))}</p>
   <button class="btn soft" style="height:42px;margin-top:6px" data-act="lNext">다른 편지 읽기</button></div></div></div></div>`}
 function msHtml(mat){
   const ms=missions().filter(m=>!m.lock&&(mat?m.d===99:m.d!==99)),u=mat?0:unread();
@@ -877,7 +909,7 @@ function msHtml(mat){
     ${ms.map(m=>{
       const done=m.daily?S.mdone[today()]:S.read[m.id],open=openMs.has(m.id);
       let body='';
-      if(m.daily)body=`<div class="msin"><ul><li>${esc(m.t)}</li></ul><button class="btn ${done?'soft':'pri'}" data-act="mDaily">${done?'완료 취소':'완료했어요'}</button></div>`;
+      if(m.daily)body=`<div class="msin">${m.x?`<div class="mxb"><b>왜 하면 좋아요?</b><p>${esc(m.x.why)}</p></div><div class="mxb"><b>이렇게 해 봐요</b>${m.x.how.map((h,j)=>`<div class="mxs"><i>${j+1}</i><span>${esc(h)}</span></div>`).join('')}</div>`:`<ul><li>${esc(m.t)}</li></ul>`}<button class="btn ${done?'soft':'pri'}" data-act="mDaily">${done?'완료 취소':'완료했어요'}</button></div>`;
       else if(m.cl)body=`<div class="msin"><div class="ckwrap">${CL.map((c,j)=>`<div class="ck ${S.cl[j]?'on':''}" data-act="ck" data-v="${j}"><span class="bx">${ic('check')}</span><span class="ctx">${j+1}. ${esc(c).replace('{wake}',`<input data-cli="wake" value="${esc(S.cli.wake||'')}" placeholder="06:30">`).replace('{arrive}',`<input data-cli="arrive" value="${esc(S.cli.arrive||'')}" placeholder="08:30">`).replace('{max}',`<input data-cli="max" value="${esc(S.cli.max||'')}" placeholder="3">`)}</span></div>`).join('')}</div><button class="btn ${done?'soft':'pri'}" data-act="mRead" data-id="${m.id}">${done?'다시 안 읽음으로':'다 챙겼어요'}</button></div>`;
       else body=`<div class="msin"><ul>${m.b.map(x=>`<li>${esc(x)}</li>`).join('')}</ul><button class="btn ${done?'soft':'pri'}" data-act="mRead" data-id="${m.id}">${done?'다시 안 읽음으로':'읽었어요'}</button></div>`;
       return `<div class="ms ${open?'open':''}"><button class="msh" data-act="mToggle" data-id="${m.id}"><span class="mi">${ic(m.icon)}</span><span class="t"><b>${esc(m.daily?m.t:m.t)}</b></span>
@@ -960,17 +992,17 @@ function rWeek(){
     body=`<div class="wg" style="--i:2">
       <div class="wh"><div></div>${ds.map(d=>`<button class="whd ${d===t?'today':''} ${pd(d).getDay()===0?'sun':pd(d).getDay()===6?'sat':''}" data-act="dayOf" data-v="${d}"><b>${pd(d).getDate()}</b><span>${WD[pd(d).getDay()]}</span></button>`).join('')}</div>
       <div class="wb"><div class="wt">${hours.map(h=>`<div style="height:${ROWH}px">${h}</div>`).join('')}</div>
-      ${ds.map(d=>{const dy=peek(d),bs=blocksOf(d).filter(b=>b.type==='school'||b.type==='acad'||b.type==='meal');
+      ${ds.map(d=>{const dy=peek(d),bs=blocksOf(d).filter(b=>b.type==='school'||b.type==='acad');
         const tl=(dy?dy.tasks:[]).filter(x=>x.ts&&x.st!=='moved').map(x=>{let a=adj(x.ts),c=adj(x.te||addTime(x.ts,x.min||30));if(c<=a)c+=1440;return{x,a,c}});
         const sh=t=>t.replace(/^0/,'');
         const bars=[];const bg=bs.map(b=>{let a=adj(b.s),c=adj(b.e);if(c<=a)c+=1440;
           for(const o of tl){const near=(p,q)=>p!==q&&Math.abs(p-q)<20;if(near(o.a,a))a=o.a;else if(near(o.c,a))a=o.c;if(near(o.c,c))c=o.c;else if(near(o.a,c))c=o.a}
-          bars.push([a,c]);const hid=tl.some(o=>o.a<a+20&&o.c>a);return `<div class="wbg ${b.type} ${hid?'nolbl':''}" style="top:${(a-GS)/60*ROWH}px;height:${(c-a)/60*ROWH}px"><span>${esc(b.label)}</span></div>`}).join('');
+          bars.push([a,c]);return `<button class="wbg ${b.type}" data-act="blkOpen" data-d="${d}" data-l="${esc(b.label)}" data-s="${b.s}" data-e="${b.e}" data-t="${b.type}" aria-label="${esc(b.label)} 일정" style="top:${(a-GS)/60*ROWH}px;height:${(c-a)/60*ROWH}px"><span>${esc(b.label)}</span></button>`}).join('');
         const its=tl.map(({x,a,c})=>{const col=subjC(x.subj),h=(c-a)/60*ROWH-2,lc=Math.max(1,Math.floor((h-(h>=56?24:4))/12.5));
           return `<button class="witem ${x.st||''}" data-act="editTask" data-date="${d}" data-id="${x.id}" style="top:${(a-GS)/60*ROWH+1}px;height:${Math.max(14,h+1)}px;--c:${col};--lc:${Math.min(4,lc)};left:${bars.some(([p,q])=>p<c&&q>a)?9:2}px"><b>${esc(x.title)}</b>${h>=56?`<i>${sh(x.ts)}<br>~${sh(fmtT(c))}</i>`:''}</button>`}).join('');
         const nm=adj(hm(new Date()));const nw=d===t&&nm>=GS&&nm<GS+GH*60?`<div class="wnow" style="top:${(adj(hm(new Date()))-GS)/60*ROWH}px"></div>`:'';
-        return `<div class="wcol ${d===t?'today':''}" data-d="${d}" style="height:${GH*ROWH}px"><div class="wlines"></div>${bg}${its}${nw}</div>`}).join('')}</div>
-      <div class="wleg"><span><i style="background:#C9C2E6"></i>학교</span><span><i style="background:#E3BFA9"></i>학원</span><span><i style="background:#EFD7B8"></i>식사</span></div></div>`;
+        return `<div class="wcol ${d===t?'today':''}" data-d="${d}" style="height:${GH*ROWH}px"><div class="wlines"></div>${bg}${nw}</div>`}).join('')}</div>
+      <div class="wleg"><span><i style="background:#C9C2E6"></i>학교</span><span><i style="background:#E3BFA9"></i>학원</span></div></div>`;
   }else{
     body=`<div class="list" style="margin-top:14px">${ds.map((d,i)=>{const dy=peek(d),ts=dy?dy.tasks:[];const es=S.events.filter(x=>x.date===d);
       return `<div class="wday ${d===t?'today':''}" style="--i:${i+2}"><button class="wdh" data-act="dayOf" data-v="${d}"><b>${pd(d).getMonth()+1}/${pd(d).getDate()} (${WD[pd(d).getDay()]})</b>${inExam(d)?`<span class="tag brown">시험</span>`:''}${es.map(x=>`<span class="tag">${esc(x.title)}</span>`).join('')}<span class="cnt">${ts.length?`${ts.filter(x=>x.st==='done').length}/${ts.filter(x=>x.st!=='moved').length}`:''}</span>${ic('r')}</button>
@@ -1092,7 +1124,7 @@ function autoPrev(){const p=$('#aPrev');if(!p)return;const a=+$('#aFrom').value,
   if(!a||!b||b<a||!ds||!de||de<ds){p.textContent='범위를 넣으면 어떻게 나눠지는지 여기 보여 줘요';return}
   let n=0;for(let d=ds;d<=de;d=addD(d,1))if(!inExam(d))n++;const per=Math.max(1,Math.min(Math.floor(n/SS.R),b-a+1)),amt=Math.ceil((b-a+1)/per);
   p.textContent=`→ ${SS.R}회독 × ${per}번 = 할 일 ${SS.R*per}개 · 한 번에 약 ${amt}${SS.unit}씩 · ${fmtMin(SS.M)}`}
-document.addEventListener('input',e=>{if(['aFrom','aTo','aS','aE'].includes(e.target.id))autoPrev()});
+document.addEventListener('input',e=>{if(['aFrom','aTo','aS','aE'].includes(e.target.id))autoPrev();if(e.target.id==='tMin'){e.target.value=e.target.value.replace(/[^0-9]/g,'');const v=parseInt(e.target.value,10);if(v)SS.min=v;pickIn('mnp','',SS.min)}});
 function doAuto(){
   const name=$('#aName').value.trim(),a=+$('#aFrom').value,b=+$('#aTo').value,ds=$('#aS').value,de=$('#aE').value;
   if(!name){toast('무엇을 공부할지 적어 주세요');return}
@@ -1180,17 +1212,50 @@ let SS={};
 function openSheet(h){if(!$('#sheet').classList.contains('on')){sheetPushed=true;try{history.pushState({sheet:1},'')}catch(e){}}
 $('#sbody').innerHTML=h;$('#ov').classList.add('on');$('#sheet').classList.add('on');$('#sheet').scrollTop=0}
 function closeSheet(fromPop){if(!fromPop&&sheetPushed){sheetPushed=false;ignorePop++;try{history.back()}catch(e){}}$('#ov').classList.remove('on');$('#sheet').classList.remove('on')}
-function autoSlot(d,min,skipId,only){
+function autoSlot(d,min,skipId,only,after){
   const fr=blocksOf(d).filter(b=>only?b.id===only:b.type==='free').map(b=>{let a=adj(b.s),c=adj(b.e);if(c<=a)c+=1440;return[a,c,b.cafe?0:20]});
   const busy=(peek(d)?.tasks||[]).filter(t=>t.ts&&t.st!=='moved'&&t.id!==skipId).map(t=>{let a=adj(t.ts),c=adj(t.te||addTime(t.ts,t.min||30));if(c<=a)c+=1440;return[a,c]}).sort((x,y)=>x[0]-y[0]);
-  let lo=DAYSTART;if(d===today()){const n=adj(hm(new Date()));lo=Math.ceil(n/10)*10}
+  let lo=DAYSTART;if(d===today()){const n=adj(hm(new Date()));lo=Math.ceil(n/10)*10}if(after)lo=Math.max(lo,after);
   for(const [a,c,G] of fr){let st=Math.max(a,lo);
     for(const [p,q] of busy){if(q<=st||p>=c)continue;if(p-st>=min+G)break;st=Math.max(st,q+G)}
     if(st+min<=c)return[fmtT(st),fmtT(st+min)]}
   return null;
 }
-function placeTask(d,min,skipId){
-  const sl=autoSlot(d,min,skipId);if(sl)return{ts:sl[0],te:sl[1],block:null,how:'auto'};
+/* 순번 있는 할 일(예: 올림포스 14강 3번)은 같은 묶음의 뒷 번호 자리에 끼워 넣고, 뒷 번호는 한 칸씩 밀기 */
+const serKey=t=>/\d/.test(t.title||'')?t.subj+'|'+String(t.title).replace(/\d+/g,'#').replace(/\s+/g,' ').trim():null;
+const serNum=t=>(String(t.title).match(/\d+/g)||[]).map(Number);
+const serCmp=(a,b)=>{const x=serNum(a),y=serNum(b);for(let i=0;i<Math.max(x.length,y.length);i++){const p=x[i]??-1,q=y[i]??-1;if(p!==q)return p-q}return 0};
+function insertPri(d,c){
+  const dy=day(d),k=serKey(c);
+  if(!k){ // 순번 없는 일: 일정은 그대로 두고 자투리(학교 자습 → 빈 공부 시간)에
+    const sb=blocksOf(d).find(b=>b.type==='school');
+    if(sb){const used=dy.tasks.filter(t=>t.block===sb.id&&t.st!=='moved').reduce((a,t)=>a+(t.min||0),0);
+      if(used+(c.min||30)<=90){c.ts='';c.te='';c.block=sb.id;dy.tasks.push(c);return{how:'school'}}}
+    const sl=autoSlot(d,c.min||30);
+    if(sl){c.ts=sl[0];c.te=sl[1];c.block=null;dy.tasks.push(c);return{how:'auto',ts:sl[0],te:sl[1]}}
+    c.ts='';c.te='';c.block=null;dy.tasks.push(c);return{how:'none'};
+  }
+  // 순번 있는 일: 그날 맨 앞(번호 순서대로)에 넣고, 원래 일정은 순서 그대로 뒤로 밀기
+  const nowM=d===today()?Math.ceil(adj(hm(new Date()))/10)*10:-1;
+  const Q=dy.tasks.filter(t=>(t.ts?adj(t.ts)>=nowM:t.bump)&&!t.st&&!t.spent&&!(S.timer&&S.timer.taskId===t.id))
+    .sort((a,b)=>(a.ts?adj(a.ts):1e9+(a.bump||0))-(b.ts?adj(b.ts):1e9+(b.bump||0)));
+  if(!Q.length){const sl=autoSlot(d,c.min||30);c.ts=sl?sl[0]:'';c.te=sl?sl[1]:'';c.block=null;dy.tasks.push(c);return sl?{how:'auto',ts:sl[0],te:sl[1]}:{how:'none'}}
+  const firstT=Q.find(t=>t.ts),start=firstT?Math.max(adj(firstT.ts),nowM):Math.max(DAYSTART,nowM);
+  const isPri=t=>t.pri&&serKey(t);
+  let i=0;while(i<Q.length&&isPri(Q[i])&&!(serKey(Q[i])===k&&serCmp(Q[i],c)>0))i++;
+  c.pri=1;Q.splice(i,0,c);dy.tasks.push(c);
+  Q.forEach(t=>{t.ts='';t.te='';t.block=null});
+  let after=start,none=0;
+  for(const t of Q){const sl=autoSlot(d,t.min||30,t.id,null,after);
+    if(sl){t.ts=sl[0];t.te=sl[1];t.bump=0;let e=adj(sl[1]);if(e<adj(sl[0]))e+=1440;after=e}else{none++;t.bump=none;after=1e9}}
+  return{how:'series',ts:c.ts,te:c.te,n:Q.length-1-i,none};
+}
+const priMsg=(d,r)=>{const md=`${pd(d).getMonth()+1}/${pd(d).getDate()}`;
+  if(r.how==='series')return `${md} ${r.ts||'맨 앞'}에 먼저 넣${r.n?`고, 뒤 일정 ${r.n}개는 순서대로 밀었어요`:'었어요'}`+(r.none?` (맨 뒤 ${r.none}개는 빈 시간이 없어서 시간 없이 뒀어요)`:'');
+  return r.how==='auto'?`${md} ${r.ts}~${r.te} 자투리 시간에 넣었어요`:r.how==='school'?'학교 자습 시간에 넣었어요':'빈 시간이 없어서 시간 없이 넣었어요'};
+function placeTask(d,min,skipId,after){
+  const sl=autoSlot(d,min,skipId,null,after);if(sl)return{ts:sl[0],te:sl[1],block:null,how:'auto'};
+  if(after)return{ts:'',te:'',block:null,how:'none'};
   const sb=blocksOf(d).find(b=>b.type==='school');
   if(sb){const used=(peek(d)?.tasks||[]).filter(t=>t.block===sb.id&&t.id!==skipId&&t.st!=='moved').reduce((a,t)=>a+(t.min||0),0);if(used+min<=90)return{ts:'',te:'',block:sb.id,how:'school'}}
   return{ts:'',te:'',block:null,how:'none'};
@@ -1203,16 +1268,45 @@ function taskSheet(id,pre){
   if(pre){let a=adj(pre.ts),b=adj(pre.te);if(b<=a)b+=1440;SS.min=b-a}
   const bs=blocksOf(cur).filter(b=>b.type==='free'||b.type==='school');
   openSheet(`<h3>${t?'할 일 수정':'나만의 공부 추가'}</h3>
-    <label class="fl">과목</label><div class="pills" id="sjp">${subjList().map(s=>`<button class="pill ${SS.subj===s.n?'on':''}" data-act="pickSubj" data-v="${esc(s.n)}"><span class="dot" style="background:${s.c}"></span>${esc(s.n)}</button>`).join('')}</div>
-    <div class="fgap"><label class="fl">할 일</label><input class="fi" id="tTitle" value="${esc(t?t.title:'')}" placeholder="예) 교과서 문제 풀기" maxlength="60"></div>
-    <div class="fgap"><label class="fl">세부 내용 (선택)</label><input class="fi" id="tNote" value="${esc(t?t.note||'':'')}" placeholder="예) 22학년도 수능, 2강 현대시" maxlength="60"></div>
+    <label class="fl">과목</label><div class="qrow" id="sjp">${subjList().map(s=>`<button class="qchip ${SS.subj===s.n?'on':''}" data-act="pickSubj" data-v="${esc(s.n)}">${esc(s.n)}</button>`).join('')}</div>
+    <div class="fgap"><label class="fl" for="tTitle">할 일</label><input class="fi qfi" id="tTitle" value="${esc(t?t.title:'')}" placeholder="예) 교과서 문제 풀기" maxlength="60"></div>
+    <div class="fgap"><label class="fl" for="tNote">세부 내용 (선택)</label><input class="fi qfi" id="tNote" value="${esc(t?t.note||'':'')}" placeholder="예) 22학년도 수능, 2강 현대시" maxlength="60"></div>
 
-    <div class="fgap"><label class="fl">목표 시간</label><div class="pills" id="mnp">${[15,25,30,45,60,90,120].map(n=>`<button class="pill ${SS.min===n?'on':''}" data-act="pickMin" data-v="${n}">${fmtMin(n)}</button>`).join('')}</div></div>
+    <div class="fgap"><label class="fl" for="tMin">목표 시간</label><div class="qmin"><input id="tMin" inputmode="numeric" maxlength="3" value="${SS.min||''}" placeholder="30"><span>분</span></div>
+      <div class="qhint">못 정하겠다면?</div><div class="qwrap" id="mnp">${[15,30,45,60,90,120].map(n=>`<button class="qchip ${SS.min===n?'on':''}" data-act="pickMin" data-v="${n}">${fmtMin(n)}</button>`).join('')}</div></div>
 
     <div class="sbtns">${t?`<button class="btn warn sm" data-act="delTask">${ic('trash')}</button>`:''}<button class="btn soft" data-act="closeSheet">취소</button><button class="btn pri" data-act="saveTask">${t?'저장':'추가'}</button></div>`);
   if(!t)setTimeout(()=>$('#tTitle')?.focus(),280);
 }
-function pickIn(box,attr,v){$$(`#${box} .pill`).forEach(p=>p.classList.toggle('on',p.dataset.v===String(v)))}
+/* 학교·학원 일정 + 숙제 */
+let BK=null;
+function blkSheet(){
+  const {d,l,s:st,e:en,t}=BK,k=d+'|'+l,L=(S.hw&&S.hw[k])||[];
+  openSheet(`<h3>${esc(l)}</h3><p class="dsub" style="margin:-8px 0 16px">${pd(d).getMonth()+1}/${pd(d).getDate()} (${WD[pd(d).getDay()]}) · ${st} ~ ${en} · ${t==='school'?'학교':'학원'}</p>
+    <label class="fl">숙제</label>
+    ${L.length?`<div class="hwl">${L.map(h=>`<div class="hwr"><button class="ck ${h.done?'on':''}" data-act="hwToggle" data-id="${h.id}"><span class="bx">${ic('check')}</span><span class="ctx">${esc(h.t)}</span></button><button class="icb" data-act="hwDel" data-id="${h.id}" aria-label="숙제 지우기">${ic('x')}</button></div>`).join('')}</div>`:`<div class="hwempty">아직 숙제가 없어요</div>`}
+    ${BK.nx&&BK.nx!==d?`<div class="hwnext">다음 수업 ${pd(BK.nx).getMonth()+1}/${pd(BK.nx).getDate()} (${WD[pd(BK.nx).getDay()]}) 숙제로 들어가요</div>`:''}
+    <div class="hwadd"><input class="fi qfi" id="hwIn" placeholder="예) 워크북 3과 문제 풀기" maxlength="80" aria-label="숙제 적기"><button class="btn pri" data-act="hwAdd">추가</button></div>
+    <div class="sbtns"><button class="btn soft" data-act="closeSheet">닫기</button></div>`);
+}
+function nextClass(l){const t=today(),now=adj(hm(new Date()));
+  for(let i=0;i<60;i++){const d=addD(t,i);const b=blocksOf(d).find(x=>x.label===l&&(x.type==='acad'||x.type==='school'));if(!b)continue;
+    if(i===0){let e=adj(b.e);if(e<=adj(b.s))e+=1440;if(e<=now)continue}return d}return null}
+const hwList=(d)=>{S.hw=S.hw||{};const k=(d||BK.d)+'|'+BK.l;return S.hw[k]||(S.hw[k]=[])};
+function hwAdd(){const i=$('#hwIn');const v=i&&i.value.trim();if(!v){toast('숙제를 적어 주세요');i&&i.focus();return}
+  const to=BK.nx||BK.d;hwList(to).push({id:uid(),t:v,done:false});save();
+  if(to!==BK.d){toast(`${pd(to).getMonth()+1}/${pd(to).getDate()} 수업 숙제로 넣었어요`);i.value='';return}
+  blkSheet();setTimeout(()=>$('#hwIn')?.focus(),50)}
+document.addEventListener('keydown',e=>{if(e.target.id==='hwIn'&&e.key==='Enter'&&!e.isComposing){e.preventDefault();hwAdd()}});
+/* 처음 받은 숙제 넣기 (한 번만) */
+const HW_SEED={id:'2026-11-19',items:{
+  '아레테수학':['마플 시너지 끝까지 풀기','내신딱풀 실력편 7개 단원 각 10문제씩'],
+  '윤쌤영어':['올림포스 16강 5번 워크북·변형 문제','올림포스 16강 7번 워크북·변형 문제','올림포스 16강 9번 워크북·변형 문제','올림포스 16강 11번 워크북·변형 문제','올림포스 16강 13번 워크북·변형 문제','올림포스 16강 15번 워크북·변형 문제','올림포스 17강 1번 워크북·변형 문제','올림포스 17강 3번 워크북·변형 문제']}};
+function seedHW(){if(S.hwSeed===HW_SEED.id)return;S.hw=S.hw||{};
+  for(const [l,arr] of Object.entries(HW_SEED.items)){const d=nextClass(l);if(!d)continue;const k=d+'|'+l,L=S.hw[k]||(S.hw[k]=[]);
+    for(const t of arr)if(!L.some(x=>x.t===t))L.push({id:uid(),t,done:false})}
+  S.hwSeed=HW_SEED.id;save();if(tab==='week')render()}
+function pickIn(box,attr,v){$$(`#${box} .pill, #${box} .qchip`).forEach(p=>p.classList.toggle('on',p.dataset.v===String(v)))}
 function statusSheet(id){
   const t=findTask(cur,id);if(!t)return;SS={id};
   const O=[['done','○','완료'],['part','△','부족'],['moved','→','다음날로 미룸'],['skip','×','안 함']];
@@ -1223,10 +1317,10 @@ function setStatus(v){
   const t=findTask(cur,SS.id);if(!t)return closeSheet();
   if(t.st==='moved'&&v!=='moved'&&t.movedTo){const nd=peek(t.movedTo);if(nd){const c=nd.tasks.find(x=>x.id===t.copy);if(c&&!c.st&&!c.spent)nd.tasks=nd.tasks.filter(x=>x!==c)}t.movedTo=null;t.copy=null}
   if(v==='moved'&&t.st!=='moved'){
-    const nx=addD(cur,1),pl=placeTask(nx,t.min||30),c={id:uid(),subj:t.subj,title:t.title,note:t.note||'',min:t.min,st:null,block:pl.block,ts:pl.ts,te:pl.te,from:cur};
-    day(nx).tasks.push(c);t.movedTo=nx;t.copy=c.id;t.block=null;
+    const nx=addD(cur,1),c={id:uid(),subj:t.subj,title:t.title,note:t.note||'',min:t.min,st:null,block:null,ts:'',te:'',from:cur};
+    const r=insertPri(nx,c);t.movedTo=nx;t.copy=c.id;t.block=null;
     if(S.timer&&S.timer.taskId===t.id)endTimer(true);
-    toast(`${pd(nx).getMonth()+1}/${pd(nx).getDate()} 할 일로 옮겼어요`);
+    toast(priMsg(nx,r));
   }
   t.st=v||null;save();closeSheet();render();
 }
@@ -1265,9 +1359,9 @@ const A={
  openAuto:()=>autoSheet(),
  aSubj:el=>{SS.subj=el.dataset.v;pickIn('asj','',SS.subj)}, aUnit:el=>{SS.unit=el.dataset.v;pickIn('aun','',SS.unit);autoPrev()},
  aR:el=>{SS.R=+el.dataset.v;pickIn('arr','',SS.R);autoPrev()}, aM:el=>{SS.M=+el.dataset.v;pickIn('amm','',SS.M);autoPrev()}, aGo:()=>doAuto(),
- leftTo:el=>{const o=findTask(el.dataset.d,el.dataset.id);if(!o)return;const nd=addD(today(),+el.dataset.v),pl=placeTask(nd,o.min||30);
-   const c={id:uid(),subj:o.subj,title:o.title,note:o.note||'',min:o.min,st:null,ts:pl.ts,te:pl.te,block:pl.block,from:el.dataset.d};day(nd).tasks.push(c);o.st='moved';o.movedTo=nd;o.copy=c.id;save();render();
-   toast(pl.how==='auto'?`${pd(nd).getMonth()+1}/${pd(nd).getDate()} ${pl.ts}~${pl.te}에 넣었어요`:pl.how==='school'?'학교 자투리 시간에 넣었어요':'빈 공부 시간이 없어서 시간 없이 넣었어요')},
+ leftTo:el=>{const o=findTask(el.dataset.d,el.dataset.id);if(!o)return;const nd=addD(today(),+el.dataset.v);
+   const c={id:uid(),subj:o.subj,title:o.title,note:o.note||'',min:o.min,st:null,ts:'',te:'',block:null,from:el.dataset.d};const r=insertPri(nd,c);o.st='moved';o.movedTo=nd;o.copy=c.id;save();render();
+   toast(priMsg(nd,r))},
  leftDel:el=>{const o=findTask(el.dataset.d,el.dataset.id);if(o){o.dismissed=true;save();render();toast('목록에서 뺐어요')}},
  goStrat:()=>{pushNav();tab='strat';window.scrollTo(0,0);render(true)},
  wkPrev:()=>{wk=addD(wk,-7);render(true,'prev')}, wkNext:()=>{wk=addD(wk,7);render(true,'next')},
@@ -1277,10 +1371,15 @@ const A={
  stDel:el=>{const n=el.dataset.v,k=el.dataset.k||'tips';S.strat[n][k].splice(+el.dataset.i,1);save();render()},
  dayOf:el=>{pushNav();cur=el.dataset.v;tab='day';window.scrollTo(0,0);render(true)},
  pickSubj:el=>{SS.subj=el.dataset.v;pickIn('sjp','',SS.subj)},
- pickMin:el=>{SS.min=+el.dataset.v;pickIn('mnp','',SS.min)},
+ blkOpen:el=>{BK={d:el.dataset.d,l:el.dataset.l,s:el.dataset.s,e:el.dataset.e,t:el.dataset.t};const nx=nextClass(BK.l);BK.nx=nx&&nx>BK.d?nx:BK.d<today()?nx:BK.d;blkSheet()},
+ hwAdd:()=>hwAdd(),
+ hwToggle:el=>{const h=hwList().find(x=>x.id===el.dataset.id);if(!h)return;h.done=!h.done;save();blkSheet()},
+ hwDel:el=>{const k=BK.d+'|'+BK.l;S.hw[k]=hwList().filter(x=>x.id!==el.dataset.id);if(!S.hw[k].length)delete S.hw[k];save();blkSheet()},
+ pickMin:el=>{SS.min=+el.dataset.v;const m=$('#tMin');if(m)m.value=SS.min;pickIn('mnp','',SS.min)},
  pickBlock:el=>{SS.block=el.dataset.v||null;pickIn('blp','',el.dataset.v)},
  saveTask:()=>{
    const title=$('#tTitle').value.trim();if(!title){toast('할 일을 적어 주세요');$('#tTitle').focus();return}
+   const mIn=$('#tMin');if(mIn){const v=parseInt(mIn.value,10);if(!v||v<5||v>600){toast('목표 시간을 5~600분 사이로 적어 주세요');mIn.focus();return}SS.min=v}
    if(!SS.subj){toast('과목을 골라 주세요');return}
    const d=day(cur),note=$('#tNote').value.trim();let ts=SS.ts||'',te=SS.te||'';
    const old=SS.id?findTask(cur,SS.id):null;
@@ -1420,7 +1519,7 @@ let PG=null;
 const snapM=(col,y)=>{const r=col.getBoundingClientRect();let m=GS+Math.floor((y-r.top)/ROWH*6)*10;return Math.max(GS,Math.min(GS+GH*60-10,m))};
 document.addEventListener('pointerdown',e=>{
   if(tab!=='week'||wkMode!=='grid')return;
-  const col=e.target.closest('.wcol');if(!col||e.target.closest('.witem'))return;
+  const col=e.target.closest('.wcol');if(!col||e.target.closest('.witem')||e.target.closest('.wbg'))return;
   PG={col,d:col.dataset.d,x:e.clientX,y:e.clientY,on:false,m0:snapM(col,e.clientY)};PG.m1=PG.m0;
   if(e.pointerType!=='mouse')PG.t=setTimeout(()=>{if(PG&&!PG.on)paintStart()},300);
 });
@@ -1479,6 +1578,7 @@ async function startSync(){
     fbUnsub=fbRef.onSnapshot(s=>{if(!s.exists||s.metadata.hasPendingWrites)return;const r=s.data();if(r.updatedAt>S.updatedAt)applyRemote(r)});
     syncMsg='';
     if(notifOn())pushReg(true);
+    seedHW();
   }catch(e){syncMsg='동기화에 실패했어요. Firestore 규칙을 확인해 주세요'}
   refreshSet();
 }
@@ -1643,6 +1743,7 @@ if('serviceWorker' in navigator){
   setInterval(notifSync,60*1000);
   setTimeout(notifSync,1200);
 }
+setTimeout(()=>{if(!fbUser)seedHW()},4000);
 window.nativeGo=go=>{if(go==='left'&&tab!=='left')A.goLeft()};
 try{const q=new URLSearchParams(location.search);if(q.get('go')==='left'){history.replaceState(null,'',location.pathname);setTimeout(()=>A.goLeft(),50)}}catch(e){}
 if('serviceWorker' in navigator){try{navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}}
