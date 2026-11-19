@@ -822,6 +822,7 @@ function unread(){return missions().filter(m=>!m.lock&&m.d!==99&&(m.daily?!S.mdo
 function render(enter,dir){
   $$('.view').forEach(v=>v.classList.toggle('on',v.id==='v-'+tab));
   const v=$('#v-'+tab);
+  try{fixSeriesQuiet()}catch(e){}
   ({home:rHome,day:rDay,week:rWeek,strat:rStrat,left:rLeft})[tab]();
   if(enter){const c=dir==='next'?'sl':dir==='prev'?'sr':'enter';v.classList.remove('enter','sl','sr');void v.offsetWidth;v.classList.add(c);clearTimeout(v._t);v._t=setTimeout(()=>v.classList.remove(c),300)}
   rTop();rTimer();
@@ -1254,7 +1255,7 @@ function insertPri(d,c){
 /* 같은 교재(순번 있는 일)는 늘 앞 번호부터: 그 교재 일정들의 시간 칸 안에서 번호 순서로 다시 앉히기 */
 function fixSeriesOrder(d){
   const dy=peek(d);if(!dy||!dy.tasks)return false;
-  const ok=t=>!t.st&&!t.spent&&!(S.timer&&S.timer.taskId===t.id)&&(t.ts||t.bump);
+  const ok=t=>!t.st&&(t.ts||t.bump);
   const G={};dy.tasks.forEach(t=>{const k=serKey(t);if(k&&ok(t))(G[k]=G[k]||[]).push(t)});
   let ch=false;
   for(const L of Object.values(G)){if(L.length<2)continue;
@@ -1262,7 +1263,8 @@ function fixSeriesOrder(d){
     order.forEach((t,i)=>{if(i<slots.length){const te=addTime(slots[i],t.min||30);if(t.ts!==slots[i]||t.te!==te){t.ts=slots[i];t.te=te;t.block=null;t.bump=0;ch=true}}
       else{if(t.ts){t.ts='';t.te='';ch=true}t.bump=i-slots.length+1}})}
   return ch}
-function fixSeriesAll(){let ch=false;for(let i=0;i<21;i++)if(fixSeriesOrder(addD(today(),i)))ch=true;if(ch){save();render()}}
+function fixSeriesQuiet(){let ch=false;for(let i=0;i<21;i++)if(fixSeriesOrder(addD(today(),i)))ch=true;if(typeof cur==='string'&&cur>=today()&&fixSeriesOrder(cur))ch=true;if(ch)save();return ch}
+function fixSeriesAll(){if(fixSeriesQuiet())render()}
 const priMsg=(d,r)=>{const md=`${pd(d).getMonth()+1}/${pd(d).getDate()}`;
   if(r.how==='series')return `${md} ${r.ts||'맨 앞'}에 먼저 넣${r.n?`고, 뒤 일정 ${r.n}개는 순서대로 밀었어요`:'었어요'}`+(r.none?` (맨 뒤 ${r.none}개는 빈 시간이 없어서 시간 없이 뒀어요)`:'');
   return r.how==='auto'?`${md} ${r.ts}~${r.te} 자투리 시간에 넣었어요`:r.how==='school'?'학교 자습 시간에 넣었어요':'빈 시간이 없어서 시간 없이 넣었어요'};
