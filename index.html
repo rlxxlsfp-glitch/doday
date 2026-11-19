@@ -1248,8 +1248,21 @@ function insertPri(d,c){
   let after=start,none=0;
   for(const t of Q){const sl=autoSlot(d,t.min||30,t.id,null,after);
     if(sl){t.ts=sl[0];t.te=sl[1];t.bump=0;let e=adj(sl[1]);if(e<adj(sl[0]))e+=1440;after=e}else{none++;t.bump=none;after=1e9}}
+  fixSeriesOrder(d);
   return{how:'series',ts:c.ts,te:c.te,n:Q.length-1-i,none};
 }
+/* 같은 교재(순번 있는 일)는 늘 앞 번호부터: 그 교재 일정들의 시간 칸 안에서 번호 순서로 다시 앉히기 */
+function fixSeriesOrder(d){
+  const dy=peek(d);if(!dy||!dy.tasks)return false;
+  const ok=t=>!t.st&&!t.spent&&!(S.timer&&S.timer.taskId===t.id)&&(t.ts||t.bump);
+  const G={};dy.tasks.forEach(t=>{const k=serKey(t);if(k&&ok(t))(G[k]=G[k]||[]).push(t)});
+  let ch=false;
+  for(const L of Object.values(G)){if(L.length<2)continue;
+    const timed=L.filter(t=>t.ts).sort((a,b)=>adj(a.ts)-adj(b.ts)),slots=timed.map(t=>t.ts),order=[...L].sort(serCmp);
+    order.forEach((t,i)=>{if(i<slots.length){const te=addTime(slots[i],t.min||30);if(t.ts!==slots[i]||t.te!==te){t.ts=slots[i];t.te=te;t.block=null;t.bump=0;ch=true}}
+      else{if(t.ts){t.ts='';t.te='';ch=true}t.bump=i-slots.length+1}})}
+  return ch}
+function fixSeriesAll(){let ch=false;for(let i=0;i<21;i++)if(fixSeriesOrder(addD(today(),i)))ch=true;if(ch){save();render()}}
 const priMsg=(d,r)=>{const md=`${pd(d).getMonth()+1}/${pd(d).getDate()}`;
   if(r.how==='series')return `${md} ${r.ts||'맨 앞'}에 먼저 넣${r.n?`고, 뒤 일정 ${r.n}개는 순서대로 밀었어요`:'었어요'}`+(r.none?` (맨 뒤 ${r.none}개는 빈 시간이 없어서 시간 없이 뒀어요)`:'');
   return r.how==='auto'?`${md} ${r.ts}~${r.te} 자투리 시간에 넣었어요`:r.how==='school'?'학교 자습 시간에 넣었어요':'빈 시간이 없어서 시간 없이 넣었어요'};
@@ -1578,7 +1591,7 @@ async function startSync(){
     fbUnsub=fbRef.onSnapshot(s=>{if(!s.exists||s.metadata.hasPendingWrites)return;const r=s.data();if(r.updatedAt>S.updatedAt)applyRemote(r)});
     syncMsg='';
     if(notifOn())pushReg(true);
-    seedHW();
+    seedHW();fixSeriesAll();
   }catch(e){syncMsg='동기화에 실패했어요. Firestore 규칙을 확인해 주세요'}
   refreshSet();
 }
@@ -1743,7 +1756,7 @@ if('serviceWorker' in navigator){
   setInterval(notifSync,60*1000);
   setTimeout(notifSync,1200);
 }
-setTimeout(()=>{if(!fbUser)seedHW()},4000);
+setTimeout(()=>{if(!fbUser)seedHW();fixSeriesAll()},4000);
 window.nativeGo=go=>{if(go==='left'&&tab!=='left')A.goLeft()};
 try{const q=new URLSearchParams(location.search);if(q.get('go')==='left'){history.replaceState(null,'',location.pathname);setTimeout(()=>A.goLeft(),50)}}catch(e){}
 if('serviceWorker' in navigator){try{navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}}
